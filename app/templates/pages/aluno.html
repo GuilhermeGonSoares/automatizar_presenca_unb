@@ -1,0 +1,84 @@
+{% extends 'base_template.html' %} {% block content %}
+
+<section class="container">
+  <div class="presenca">
+    <h1 class="container__texto">Todas as aulas cadastradas</h1>
+    <table class="table-striped-columns">
+      <thead>
+        <tr>
+          <th>Ação</th>
+          <th>Aula</th>
+          <th>Data aula</th>
+          <th>Data da Presença</th>
+          <th>Presenca</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for presenca in presencas %}
+        <tr>
+          <td>
+            {% if presenca.aula.aberta and not presenca.presente %}
+            <button class="button" onclick="openModal({{presenca.aula_id}})">
+              Marcar presença
+            </button>
+            {% else %} Presença fechada {% endif %}
+          </td>
+          <td>{{presenca.aula.nome}}</td>
+          <td>{{presenca.aula.data.strftime('%H:%M %d/%m/%Y')}}</td>
+          <td>
+            {% if not presenca.presente %} ---- {% else %}
+            {{presenca.data.strftime('%H:%M %d/%m/%Y')}} {% endif %}
+          </td>
+          <td>{% if presenca.presente %} ✅ {% else %} ❌ {% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+<!-- Adicione o modal -->
+
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2>Confirmar presença</h2>
+    <form
+      class="form-group"
+      action="{{url_for('marcar_presenca')}}"
+      method="POST"
+    >
+      <input type="hidden" name="aula_id" value="" />
+      <div class="">
+        <label for="codigo">Código da aula:</label>
+        <input type="text" name="codigo" id="codigo" />
+      </div>
+      <button type="submit" class="button">Confirmar</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Abrir modal
+  function openModal(aula_id) {
+    var modal = document.getElementById('myModal');
+    modal.style.display = 'block';
+    // Passar o ID da aula para o formulário
+    var form = modal.querySelector('form');
+    var input = form.querySelector('input[name=aula_id]');
+    input.value = aula_id;
+  }
+
+  // Fechar modal
+  function closeModal() {
+    var modal = document.getElementById('myModal');
+    modal.style.display = 'none';
+  }
+
+  window.onclick = function (event) {
+    var modal = document.getElementById('myModal');
+    if (event.target == modal) {
+      modal.style.display = 'none';
+    }
+  };
+</script>
+{% endblock%}

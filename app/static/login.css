@@ -1,0 +1,68 @@
+.login {
+  background-color: var(--cor-quaternaria);
+  box-sizing: border-box;
+  max-width: 70%;
+  height: auto;
+  margin: 3em auto 0 auto;
+  border-radius: 3em;
+  padding: 3em 0;
+  opacity: 0.9;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+}
+
+.login__card {
+  border-top: solid 3px var(--cor-secundaria);
+  max-width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5em;
+  margin: auto;
+  padding-top: 1em;
+}
+
+.login__card-titulo {
+  color: var(--cor-escura);
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.login__card-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  width: 60%;
+}
+
+.login__card-campo label {
+  font-weight: 700;
+  color: var(--cor-secundaria);
+}
+
+.login__card-campo input {
+  border: none;
+  background-color: var(--cor-clara);
+  padding: 1em;
+  min-width: 90%;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+}
+
+.login__card-campo input::placeholder {
+  color: var(--cor-cinza);
+  opacity: 1;
+}
+
+.login__card button {
+  width: 50%;
+  height: 2.5em;
+  font-size: 16px;
+}
+
+.card__link {
+  transition: all 0.3s ease-in-out;
+}
+
+.card__link:hover {
+  color: var(--cor-escura);
+}

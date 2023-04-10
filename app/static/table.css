@@ -1,0 +1,38 @@
+.table-striped-columns {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  background-color: var(--cor-quaternaria);
+}
+
+.table-striped-columns th,
+.table-striped-columns td {
+  padding: 0.75rem;
+  vertical-align: top;
+  text-align: center;
+}
+
+.table-striped-columns th {
+  background-color: var(--cor-secundaria);
+  color: var(--cor-clara);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.table-striped-columns th:nth-child(1) {
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.table-striped-columns th:last-child {
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.table-striped-columns tbody tr:nth-child(odd) td {
+  background-color: var(--cor-quaternaria);
+}
+
+.table-striped-columns tbody tr:nth-child(even) td {
+  background-color: var(--cor-clara);
+}

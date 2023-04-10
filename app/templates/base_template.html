@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UnB - Proj</title>
+    <link rel="stylesheet" />
+    <link rel="stylesheet" href="../static/style.css" />
+    <link rel="stylesheet" href="../static/reset.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
+        <div class="navbar__items">
+          <img src="../static/img/LOGOAPRENDER 3.png" alt="" />
+          <span class="navbar__texto">Presenças</span>
+        </div>
+
+        <div class="navbar__items">
+          {% if not current_user.is_authenticated %}
+          <a class="navbar__link" href="{{ url_for('login_page') }}">Login</a>
+          <a class="navbar__link" href="{{ url_for('register_page') }}"
+            >Registrar</a
+          >
+          {% else %}
+          <span class="navbar__nome">🤓{{ current_user.nome }}</span>
+          <a class="navbar__link" href="{{ url_for('logout_page') }}">Logout</a>
+          {% endif %}
+        </nav>
+        </div>
+    </header>
+
+    <main>
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %} {% endif %} {% endwith %} {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>
