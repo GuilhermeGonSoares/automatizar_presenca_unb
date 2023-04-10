@@ -76,7 +76,7 @@ class Aula(db.Model):
     @staticmethod
     def on_before_insert(mapper, connection, target):
         target.codigo = Aula.generate_code()
-
+        target.data = datetime.now(fuso_horario)
     
 
 #EVENTOS LISTENER -> EVENTOS DISPARADOS ANTES DE SALVAR OU NA HORA DE ATUALIZAR
