@@ -1,6 +1,19 @@
 {% extends 'base_template.html' %} {% block content %}
 
 <section class="container">
+  <p class="container__texto">Professor: {{current_user.nome}}</p>
+  <div class="busca login__card-campo">
+    <label for="search">Buscar aula: </label>
+    <input
+      type="text"
+      id="search"
+      name="search"
+      placeholder="Digite o nome da aula ou a data"
+    />
+  </div>
+</section>
+
+<section class="container">
   <!-- Adicione o botão para abrir o modal -->
   <div class="aula">
     <p class="container__texto">Cadastrar nova aula</p>
@@ -102,6 +115,33 @@
       modal.style.display = 'none';
     }
   };
+
+  function filtrarAulas() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById('search');
+    filter = input.value.toUpperCase();
+    table = document.getElementsByTagName('table')[0];
+    tr = table.getElementsByTagName('tr');
+    for (i = 0; i < tr.length; i++) {
+      td_nome = tr[i].getElementsByTagName('td')[0];
+      td_data = tr[i].getElementsByTagName('td')[2];
+      if (td_nome || td_data) {
+        txtValue_nome = td_nome.textContent || td_nome.innerText;
+        txtValue_data = td_data.textContent || td_data.innerText;
+        if (
+          txtValue_nome.toUpperCase().indexOf(filter) > -1 ||
+          txtValue_data.toUpperCase().indexOf(filter) > -1
+        ) {
+          tr[i].style.display = '';
+        } else {
+          tr[i].style.display = 'none';
+        }
+      }
+    }
+  }
+
+  // Adiciona um evento de ouvir para o campo de busca
+  document.getElementById('search').addEventListener('keyup', filtrarAulas);
 </script>
 
 {% endblock%}

@@ -6,7 +6,7 @@ import random
 import string
 from sqlalchemy import event
 import pytz
-
+from .routes import redirect, url_for
 
 fuso_horario = pytz.timezone('America/Sao_Paulo')
 
@@ -18,15 +18,18 @@ class MatriculaProfessor(db.Model):
 def load_user(matricula):
     return User.query.get(matricula)
 
+@login_manager.unauthorized_handler
+def unauthorized():
+    # Redireciona o usuário para a página de login
+    return redirect(url_for('login_page'))
+
 class User(db.Model, UserMixin):
-    matricula = db.Column(db.String(9), primary_key=True)
+    matricula = db.Column(db.String(9), primary_key=True, unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     nome = db.Column(db.String(100), nullable=False)
     senha_hash = db.Column(db.String(100), nullable=False)
     eh_professor = db.Column(db.Boolean, nullable=True, default=False)
-
     presenca_todas_aulas = db.relationship('Presenca')
-
     def __repr__(self):
         return f'User {self.nome}'
     

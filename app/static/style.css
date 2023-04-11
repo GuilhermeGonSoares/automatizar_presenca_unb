@@ -35,7 +35,7 @@ body {
   box-sizing: border-box;
   max-width: 70%;
   border-radius: 2em;
-  margin: 3em auto 0 auto;
+  margin: 3em auto 2em auto;
   padding: 2em;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
 }
