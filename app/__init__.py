@@ -17,6 +17,5 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 from app import routes
 
-def init_app():
-    db.create_all()
+def create_app():
     return app
