@@ -7,7 +7,7 @@ from reportlab.lib.units import inch
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from flask import render_template, redirect, url_for, flash, request, make_response
 from .forms import RegisterForm, LoginForm
-from .models import User, MatriculaProfessor, Aula, Presenca, Disciplina, alunos_disciplinas
+from .models import User, MatriculaAluno, MatriculaProfessor, Aula, Presenca, Disciplina, alunos_disciplinas
 from.utils import professor_required
 from flask_login import login_user, login_required, logout_user, current_user
 from .models import fuso_horario
@@ -40,6 +40,11 @@ def register_page():
     if form.validate_on_submit():
         matricula = form.matricula.data
         matricula_professor = MatriculaProfessor.query.filter_by(matricula=matricula).first()
+        matricula_aluno = MatriculaAluno.query.filter_by(matricula=matricula).first()
+
+        if not matricula_professor and not matricula_aluno:
+            flash(f'Matrícula inválida, peça para ADMIN cadastra-la', category='danger')
+            return redirect(url_for('register_page'))
 
         user = User(matricula=matricula,
                     email = form.email.data,
@@ -47,7 +52,8 @@ def register_page():
                     senha=form.senha.data)
 
         user.eh_professor = True if matricula_professor else False
-
+        
+    
         db.session.add(user)
         db.session.commit()
         
