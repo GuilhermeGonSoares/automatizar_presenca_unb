@@ -3,6 +3,10 @@
   border-collapse: collapse;
   border-spacing: 0;
   background-color: var(--cor-quaternaria);
+  overflow: auto;
+}
+table {
+  overflow-x: auto;
 }
 
 .table-striped-columns th,
@@ -15,7 +19,7 @@
 .table-striped-columns th {
   background-color: var(--cor-secundaria);
   color: var(--cor-clara);
-  font-size: 18px;
+  font-size: 1rem;
   font-weight: 700;
 }
 

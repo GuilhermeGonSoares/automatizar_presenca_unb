@@ -13,6 +13,9 @@ fuso_horario = pytz.timezone('America/Sao_Paulo')
 class MatriculaProfessor(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     matricula = db.Column(db.String(9), unique=True)
+class MatriculaAluno(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    matricula = db.Column(db.String(9), unique=True)
 
 @login_manager.user_loader
 def load_user(matricula):
@@ -29,7 +32,10 @@ class User(db.Model, UserMixin):
     nome = db.Column(db.String(100), nullable=False)
     senha_hash = db.Column(db.String(100), nullable=False)
     eh_professor = db.Column(db.Boolean, nullable=True, default=False)
+
+    #Relacionamentos    
     presenca_todas_aulas = db.relationship('Presenca')
+
     def __repr__(self):
         return f'User {self.nome}'
     
@@ -46,6 +52,34 @@ class User(db.Model, UserMixin):
 
     def check_password_correction(self, attempted_password):
         return bcrypt.check_password_hash(self.senha_hash, attempted_password)
+
+
+alunos_disciplinas = db.Table('alunos_disciplinas',
+    db.Column('user_matricula', db.String(9), db.ForeignKey('user.matricula')),
+    db.Column('disciplina_id', db.Integer, db.ForeignKey('disciplina.id'))
+)
+class Disciplina(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nome = db.Column(db.String(100), nullable=False)
+    professor_matricula = db.Column(db.String, db.ForeignKey('user.matricula'), nullable=True)
+    codigo = db.Column(db.Integer, nullable=True, unique=True)
+    
+    professor = db.relationship('User', backref='disciplinas_ministradas', foreign_keys=[professor_matricula])
+    alunos = db.relationship('User', secondary=alunos_disciplinas, backref='disciplinas_matriculadas')
+    aulas = db.relationship('Aula', cascade='all, delete-orphan')
+    
+    @staticmethod
+    def generate_code():
+        characters = string.ascii_letters + string.digits
+        while True:
+            code = ''.join(random.choices(characters, k=6))
+            if not Disciplina.query.filter_by(codigo=code).first():
+                return code
+
+    @staticmethod
+    def on_before_insert(mapper, connection, target):
+        target.codigo = Disciplina.generate_code()
+        target.data = datetime.now(fuso_horario)
 
 class Presenca(db.Model):
     user_matricula = db.Column(db.String, db.ForeignKey('user.matricula'), primary_key=True)
@@ -64,9 +98,10 @@ class Aula(db.Model):
     aberta = db.Column(db.Boolean, nullable=True, default=False)
     data = db.Column(db.DateTime, nullable=True, default=datetime.now(fuso_horario))
     data_fechamento = db.Column(db.DateTime, nullable=True, default=datetime.now(fuso_horario))
-
+    disciplina_id = db.Column(db.Integer, db.ForeignKey('disciplina.id'), nullable=False)
 
     presencas = db.relationship('Presenca', cascade='all, delete-orphan')
+    disciplina = db.relationship('Disciplina', back_populates='aulas')
 
     def __repr__(self):
         return f'Aula {self.nome}'
@@ -84,6 +119,7 @@ class Aula(db.Model):
 
 #EVENTOS LISTENER -> EVENTOS DISPARADOS ANTES DE SALVAR OU NA HORA DE ATUALIZAR
 event.listen(Aula, 'before_insert', Aula.on_before_insert, propagate=True)
+event.listen(Disciplina, 'before_insert', Disciplina.on_before_insert, propagate=True)
 
 @event.listens_for(Aula.aberta, 'set')
 def aula_aberta_listener(target, value, oldvalue, initiator):

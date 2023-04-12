@@ -1,31 +1,110 @@
 {% extends 'base_template.html' %} {% block content %}
 
-<section class="container">
-  <p class="container__texto">Professor: {{current_user.nome}}</p>
-  <div class="busca login__card-campo">
-    <label for="search">Buscar aula: </label>
-    <input
-      type="text"
-      id="search"
-      name="search"
-      placeholder="Digite o nome da aula ou a data"
-    />
-  </div>
-</section>
+<section class="grid_professor">
+  <section class="container" id="side_bar">
+    <div class="aula">
+      <p class="container__texto">Cadastrar nova disciplina</p>
+      <button
+        class="button"
+        onclick="document.getElementById('modal_disciplina').style.display='block'"
+      >
+        Cadastrar
+      </button>
+    </div>
+      <h2 class="container__texto">
+        <a href="{{ url_for('professor_page' ) }}">Meus Cursos</a>
+      </h2>
+    <ul>
+      {% for disciplina in disciplinas %}
+      <li class="container__lista_disciplina">
+          <p class="container__texto"><a href="{{ url_for('disciplina_page', disciplina_id=disciplina.id ) }}">
+            {{disciplina.nome}}
+          </a></p>
+          <p class="container__texto">{{disciplina.codigo}}</p>
+          <a
+            href="{{ url_for('deletar_disciplina', disciplina_id=disciplina.id ) }}"
+            onclick="return confirm('Tem certeza de que deseja excluir esta aula?')"
+            ><button class="button">Excluir</button>
+          </a>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
 
-<section class="container">
-  <!-- Adicione o botão para abrir o modal -->
-  <div class="aula">
-    <p class="container__texto">Cadastrar nova aula</p>
-    <button
-      class="button"
-      onclick="document.getElementById('modal').style.display='block'"
-    >
-      Cadastrar
-    </button>
-  </div>
+  <section class="container" id="side_bar">
+    <p class="container__texto">Professor: {{current_user.nome}}</p>
+    <div class="busca login__card-campo">
+      <label for="search">Buscar aula: </label>
+      <input
+        type="text"
+        id="search"
+        name="search"
+        placeholder="Digite o nome da aula ou a data"
+      />
+    </div>
+  </section>
 
-  <!-- Adicione o modal -->
+  {% if disciplina or disciplinas %}
+  <section class="container">
+    <h1 class="container__titulo">Disciplina {{disciplina.nome}}</h1>
+    <div class="aula">
+      <p class="container__texto">Cadastrar nova aula</p>
+      <button
+        class="button"
+        onclick="document.getElementById('modal').style.display='block'"
+      >
+        Cadastrar
+      </button>
+    </div>
+    <div class="presenca">
+      <h1 class="container__texto">Todas as aulas cadastradas</h1>
+      <table class="table-striped-columns">
+        <thead>
+          <tr>
+            <th>Aula</th>
+            <th>Código</th>
+            <th>Data</th>
+            <th>Fechamento da Presenca</th>
+            <th>Ação</th>
+            <th>Excluir</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for aula in aulas %}
+          <tr>
+            <td>{{aula.nome}}</td>
+            <td>{{aula.codigo}}</td>
+            <td>{{aula.data.strftime('%H:%M %d/%m/%Y')}}</td>
+            <td>
+              {% if aula.aberta %} ---- {% else %}
+              {{aula.data_fechamento.strftime('%H:%M %d/%m/%Y')}} {% endif %}
+            </td>
+            <td>
+              {% if aula.aberta %}
+              <a href="{{ url_for('fechar_presenca_aula', aula_id=aula.id, disciplina_id=disciplina.id ) }}"
+                ><button class="button">Fechar</button></a
+              >
+              {% else %}
+              <a href="{{ url_for('relatorio_presenca', aula_id=aula.id ) }}"
+                ><button class="button">Relatorio</button></a
+              >
+              {% endif %}
+            </td>
+            <td>
+              <a
+                href="{{ url_for('deletar_aula', aula_id=aula.id ) }}"
+                onclick="return confirm('Tem certeza de que deseja excluir esta aula?')"
+                ><button class="button">Excluir</button>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
   <div id="modal" class="modal">
     <div class="modal-content">
       <span
@@ -35,7 +114,7 @@
       >
       <form
         class="form-group"
-        action="{{ url_for('create_aula_page' ) }}"
+        action="{{ url_for('create_aula_page', disciplina_id = disciplina.id ) }}"
         method="post"
       >
         <div class="login__card-campo">
@@ -59,54 +138,53 @@
       </form>
     </div>
   </div>
-  <div class="presenca">
-    <h1 class="container__texto">Todas as aulas cadastradas</h1>
-    <table class="table-striped-columns">
-      <thead>
-        <tr>
-          <th>Aula</th>
-          <th>Código</th>
-          <th>Data</th>
-          <th>Fechamento da Presenca</th>
-          <th>Ação</th>
-          <th>Excluir</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for aula in aulas %}
-        <tr>
-          <td>{{aula.nome}}</td>
-          <td>{{aula.codigo}}</td>
-          <td>{{aula.data.strftime('%H:%M %d/%m/%Y')}}</td>
-          <td>
-            {% if aula.aberta %} ---- {% else %}
-            {{aula.data_fechamento.strftime('%H:%M %d/%m/%Y')}} {% endif %}
-          </td>
-          <td>
-            {% if aula.aberta %}
-            <a href="{{ url_for('fechar_presenca_aula', aula_id=aula.id ) }}"
-              ><button class="button">Fechar</button></a
-            >
-            {% else %}
-            <a href="{{ url_for('relatorio_presenca', aula_id=aula.id ) }}"
-              ><button class="button">Relatorio</button></a
-            >
-            {% endif %}
-          </td>
-          <td>
-            <a
-              href="{{ url_for('deletar_aula', aula_id=aula.id ) }}"
-              onclick="return confirm('Tem certeza de que deseja excluir esta aula?')"
-              ><button class="button">Excluir</button>
-            </a>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  {% else %}
+  <div class="container flex">
+    <h2 class="container__texto" style="text-align: center">
+      POR FAVOR CADASTRE UMA DISCIPLINA PARA TER ACESSO AS AULAS
+    </h2>
+    <img
+      class="container__imagem"
+      src="../../static/img/ilustracao-404-not-found.webp"
+      alt=""
+    />
   </div>
+  {% endif %}
 </section>
-<!-- Adicione o JavaScript para controlar o modal -->
+<div id="modal_disciplina" class="modal">
+  <div class="modal-content">
+    <span
+      class="close"
+      onclick="document.getElementById('modal_disciplina').style.display='none'"
+      >&times;</span
+    >
+    <form
+      class="form-group"
+      action="{{ url_for('create_disciplina_page' ) }}"
+      method="post"
+    >
+      <div class="login__card-campo">
+        <label for="nome">Nome</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nome"
+          placeholder="Digite o nome da disciplina"
+          name="disciplina"
+        />
+      </div>
+      <button type="submit" class="button">Salvar</button>
+      <button
+        type="button"
+        class="button"
+        onclick="document.getElementById('modal_disciplina').style.display='none'"
+      >
+        Cancelar
+      </button>
+    </form>
+  </div>
+</div>
+
 <script>
   // Fecha o modal quando o usuário clica fora dele
   window.onclick = function (event) {

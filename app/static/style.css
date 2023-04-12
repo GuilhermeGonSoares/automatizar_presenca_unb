@@ -2,6 +2,9 @@
 @import url('./login.css');
 @import url('./flash.css');
 @import url('./table.css');
+@import url('./professor.css');
+@import url('./aluno.css');
+
 :root {
   --cor-primaria: #f1f6f9;
   --cor-secundaria: #14274e;
@@ -14,6 +17,7 @@
 body {
   background-color: var(--cor-primaria);
 }
+
 .button {
   background-color: var(--cor-secundaria);
   color: var(--cor-clara);
@@ -33,9 +37,7 @@ body {
 .container {
   background-color: var(--cor-quaternaria);
   box-sizing: border-box;
-  max-width: 70%;
   border-radius: 2em;
-  margin: 3em auto 2em auto;
   padding: 2em;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
 }
@@ -44,14 +46,36 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 0.5em;
-  border-bottom: solid 2px var(--cor-primaria);
+  padding: 0.5em;
+  border-bottom: solid 2px var(--cor-secundaria);
+  overflow-y: auto;
+}
+
+.flex {
+  display: flex;
+  flex-direction: column;
+}
+
+.container__titulo {
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
 }
 
 .container__texto {
   font-size: 18px;
   font-weight: 500;
   margin-bottom: 1em;
+}
+
+.container__imagem {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.container__lista_disciplina {
+  display: flex;
+  justify-content: space-between;
 }
 
 .presenca {
@@ -77,6 +101,12 @@ body {
   border: 1px solid #888;
   width: 80%;
   max-width: 600px;
+}
+
+.form_disciplina_aluno {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 }
 
 .close {

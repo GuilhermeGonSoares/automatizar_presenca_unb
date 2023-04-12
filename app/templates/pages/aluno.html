@@ -1,6 +1,23 @@
 {% extends 'base_template.html' %} {% block content %}
 
-<section class="container">
+<section class="grid_aluno">
+  <section class="container" id="side_bar">
+      <h2 class="container__texto">
+        <a href="{{ url_for('aluno_page' ) }}">Meus Cursos</a>
+      </h2>
+    <ul>
+      {% for disciplina in disciplinas %}
+      <li class="container__lista_disciplina">
+          <p class="container__texto"><a href="{{ url_for('disciplina_aluno_page', disciplina_id=disciplina.id ) }}">
+            {{disciplina.nome}}
+          </a></p>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+
+ <section class="container aluno">
   <div class="presenca">
     <h1 class="container__texto">Todas as aulas cadastradas</h1>
     <table class="table-striped-columns">
@@ -36,6 +53,8 @@
     </table>
   </div>
 </section>
+</section>
+
 <!-- Adicione o modal -->
 
 <div id="myModal" class="modal">
@@ -44,7 +63,7 @@
     <h2>Confirmar presença</h2>
     <form
       class="form-group"
-      action="{{url_for('marcar_presenca')}}"
+      action="{{url_for('marcar_presenca', disciplina_id=disciplina.id)}}"
       method="POST"
     >
       <input type="hidden" name="aula_id" value="" />
@@ -53,6 +72,52 @@
         <input type="text" name="codigo" id="codigo" />
       </div>
       <button type="submit" class="button">Confirmar</button>
+    </form>
+  </div>
+</div>
+
+<div id="modal_disciplina" class="modal">
+  <div class="modal-content">
+    <span
+      class="close"
+      onclick="document.getElementById('modal_disciplina').style.display='none'"
+      >&times;</span
+    >
+    <form
+      class="form_disciplina_aluno"
+      action="{{ url_for('cadastrar_disciplina_page' ) }}"
+      method="post"
+    >
+      <div class="login__card-campo">
+        <label for="nome">Nome</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nome"
+          placeholder="Digite o nome da disciplina"
+          name="disciplina_nome"
+        />
+      </div>
+      <div class="login__card-campo">
+        <label for="nome">Código</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nome"
+          placeholder="Digite o código da disciplina"
+          name="disciplina_codigo"
+        />
+      </div>
+      <div class="disciplina_aluno_button">
+        <button type="submit" class="button">Salvar</button>
+      <button
+        type="button"
+        class="button"
+        onclick="document.getElementById('modal_disciplina').style.display='none'"
+      >
+        Cancelar
+      </button>
+      </div>
     </form>
   </div>
 </div>
@@ -68,16 +133,24 @@
     input.value = aula_id;
   }
 
+  
+
   // Fechar modal
   function closeModal() {
     var modal = document.getElementById('myModal');
+    var modal_disciplina = document.getElementById('modal_disciplina');
     modal.style.display = 'none';
+    modal_disciplina.style.display = 'none'
   }
 
   window.onclick = function (event) {
     var modal = document.getElementById('myModal');
+    var modal_disciplina = document.getElementById('modal_disciplina');
     if (event.target == modal) {
       modal.style.display = 'none';
+    }
+    if (event.target == modal_disciplina) {
+      modal_disciplina.style.display = 'none';
     }
   };
 </script>

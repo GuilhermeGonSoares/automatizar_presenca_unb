@@ -7,7 +7,7 @@ from reportlab.lib.units import inch
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from flask import render_template, redirect, url_for, flash, request, make_response
 from .forms import RegisterForm, LoginForm
-from .models import User, MatriculaProfessor, Aula, Presenca
+from .models import User, MatriculaProfessor, Aula, Presenca, Disciplina, alunos_disciplinas
 from.utils import professor_required
 from flask_login import login_user, login_required, logout_user, current_user
 from .models import fuso_horario
@@ -69,21 +69,60 @@ def logout_page():
 @login_required
 @professor_required
 def professor_page():
-    print(request.remote_addr)
-    aulas = Aula.query.all()
-    return render_template('pages/professor.html', aulas=aulas)
+    disciplinas = Disciplina.query.filter_by(professor=current_user).all()
 
-@app.route('/marcarPresenca')
+    return render_template('pages/professor-disciplina.html', disciplinas=disciplinas)
+
+@app.route('/disciplinasAluno')
 @login_required
 def aluno_page():
-    aula_presenca = []
-    aulas = Aula.query.all()
-    presencas = Presenca.query.join(Aula).filter_by(user=current_user).all()
-    return render_template('pages/aluno.html', presencas=presencas)
+    disciplinas_matriculadas= current_user.disciplinas_matriculadas
+    return render_template('pages/aluno-disciplina.html', disciplinas_matriculadas=disciplinas_matriculadas)
 
-@app.route('/confirmPresenca', methods=['POST'])
+@app.route('/cadastrarDisciplina', methods=['POST'])
 @login_required
-def marcar_presenca():
+def cadastrar_disciplina_page():
+    codigo = request.form['disciplina_codigo']
+
+    disciplina = Disciplina.query.filter_by(codigo=codigo).first()
+    if not disciplina:
+        flash(f'Código da disciplina inválido', category='danger')
+        return redirect(url_for('aluno_page'))
+
+    
+    disciplina.alunos.append(current_user)
+    
+    aulas = disciplina.aulas
+
+    for aula in aulas:
+        aula.presencas.append(Presenca(presente=0, user=current_user))
+    
+    db.session.commit()
+    flash(f'Disciplina cadastrada', category='success')
+    return redirect(url_for('aluno_page'))
+
+
+@app.route('/disciplina/<int:disciplina_id>')
+@login_required
+@professor_required
+def disciplina_page(disciplina_id):
+    disciplinas = Disciplina.query.filter_by(professor=current_user).all()
+    disciplina = list(filter(lambda d: d.id == disciplina_id, disciplinas))[0]
+    return render_template('pages/professor.html', disciplina=disciplina, disciplinas=disciplinas, aulas=disciplina.aulas)
+
+@app.route('/disciplina_aluno/<int:disciplina_id>')
+@login_required
+def disciplina_aluno_page(disciplina_id):
+    disciplinas_matriculadas = current_user.disciplinas_matriculadas
+    disciplina = list(filter(lambda d: d.id == disciplina_id, disciplinas_matriculadas))[0]
+    presencas = Presenca.query.join(Aula).filter(Aula.disciplina_id == disciplina_id).filter_by(user=current_user).all()
+    
+    return render_template('pages/aluno.html', disciplina=disciplina, disciplinas=disciplinas_matriculadas, presencas=presencas)
+
+
+@app.route('/confirmPresenca/<int:disciplina_id>', methods=['POST'])
+@login_required
+def marcar_presenca(disciplina_id):
     aula_id = request.form['aula_id']
     codigo = request.form['codigo']
     data = datetime.now(fuso_horario) #Data atual na hora de marcar presenca
@@ -95,36 +134,34 @@ def marcar_presenca():
 
     if aula.codigo != codigo:
         flash('Código incorreto, tente novamente.', 'danger')
-        return redirect(url_for('aluno_page'))
+        return redirect(url_for('disciplina_aluno_page',disciplina_id=disciplina_id))
     
     if intervalo_inicio_chamada_marcar_presenca > 20:
         flash(f'Já passou o tempo de 20 minutos para marcar presença. Tempo atual: {intervalo_inicio_chamada_marcar_presenca} minutos', 'danger')
-        return redirect(url_for('aluno_page'))
+        return redirect(url_for('disciplina_aluno_page',disciplina_id=disciplina_id))
 
 
     presenca = Presenca.query.filter_by(user=current_user, aula = aula).first()
     presenca.presente= True
 
     db.session.commit()
-    print(presenca)
-    print(presenca.presente)
     flash('Presença confirmada com sucesso!', 'success')
-    return redirect(url_for('aluno_page'))
+    return redirect(url_for('disciplina_aluno_page',disciplina_id=disciplina_id))
 
-@app.route('/createAula', methods=['POST'])
+@app.route('/createAula/<int:disciplina_id>', methods=['POST'])
 @login_required
 @professor_required
-def create_aula_page():
+def create_aula_page(disciplina_id):
     nome_aula = request.form['aula']
-    nova_aula = Aula(nome=nome_aula, aberta=True)
-
-    alunos = User.query.filter_by(eh_professor=False).all()
+    nova_aula = Aula(nome=nome_aula, aberta=True, disciplina_id=disciplina_id)
+    
+    alunos = Disciplina.query.join(User).filter_by(id=disciplina_id).first().alunos
     for aluno in alunos:
         nova_aula.presencas.append(Presenca(presente=0, user=aluno))
   
     db.session.add(nova_aula)
     db.session.commit()
-    return redirect(url_for('professor_page'))
+    return redirect(url_for('disciplina_page', disciplina_id=disciplina_id))
 
 @app.route('/deletarAula/<int:aula_id>', methods=['GET'])
 @login_required
@@ -141,10 +178,38 @@ def deletar_aula(aula_id):
     flash('Aula excluída com sucesso!', 'success')
     return redirect(url_for('professor_page'))
 
-@app.route('/fecharPresenca/<int:aula_id>', methods=['GET'])
+
+@app.route('/createDisciplina', methods=['POST'])
 @login_required
 @professor_required
-def fechar_presenca_aula(aula_id):
+def create_disciplina_page():
+    user = current_user
+    nome_disciplina = request.form['disciplina']
+    nova_disciplina = Disciplina(nome=nome_disciplina, professor=user)
+  
+    db.session.add(nova_disciplina)
+    db.session.commit()
+    return redirect(url_for('disciplina_page', disciplina_id=nova_disciplina.id))
+
+
+@app.route('/deletarDisciplina/<int:disciplina_id>', methods=['GET'])
+@login_required
+@professor_required
+def deletar_disciplina(disciplina_id):
+    disciplina = Disciplina.query.get(disciplina_id)
+    if not disciplina:
+        flash('Id da aula inválido!', 'danger')
+        return redirect(url_for('professor_page'))
+    
+    db.session.delete(disciplina)
+    db.session.commit()
+    flash('Disciplina excluída com sucesso!', 'success')
+    return redirect(url_for('professor_page'))
+
+@app.route('/fecharPresenca/aula/<int:aula_id>/disciplina/<int:disciplina_id>', methods=['GET'])
+@login_required
+@professor_required
+def fechar_presenca_aula(aula_id, disciplina_id):
     aula = Aula.query.get(aula_id)
     if not aula:
         flash('Id da aula inválido!', 'danger')
@@ -154,7 +219,7 @@ def fechar_presenca_aula(aula_id):
 
     db.session.commit()
     flash('Presença fechada com sucesso', 'success')
-    return redirect(url_for('professor_page'))
+    return redirect(url_for('disciplina_page', disciplina_id=disciplina_id))
 
 
 @app.route('/relatorioPresenca/<int:aula_id>', methods=['GET'])
@@ -200,3 +265,15 @@ def relatorio_presenca(aula_id):
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = f'attachment; filename=relatorio_presencas_{aula.nome}.pdf'
     return response
+
+@app.route('/sigaa', methods=['GET', 'POST'])
+def sigaa_page():
+    if request.method == 'POST':
+        print(request.form)
+        return redirect(url_for('sigaa_page'))
+    
+    alunos = User.query.join(Presenca).filter_by(eh_professor=False).all()
+
+
+    return render_template('pages/sigaa.html', alunos=alunos)
+

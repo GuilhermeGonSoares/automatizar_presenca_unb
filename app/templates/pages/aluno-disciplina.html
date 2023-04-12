@@ -1,0 +1,132 @@
+{% extends 'base_template.html' %} {% block content %}
+
+<section class="grid_aluno">
+  <section class="container" id="side_bar">
+    <div class="aula">
+      <p class="container__texto">Cadastrar disciplina</p>
+      <button
+        class="button"
+        onclick="document.getElementById('modal_disciplina').style.display='block'"
+      >
+        Cadastrar
+      </button>
+    </div>
+    <h2 class="container__texto">Meus Cursos</h2>
+    <ul>
+      {% for disciplina in disciplinas_matriculadas %}
+      <li class="container__lista_disciplina">
+        <p class="container__texto">
+          <a
+            href="{{ url_for('disciplina_aluno_page', disciplina_id=disciplina.id ) }}"
+          >
+            {{disciplina.nome}}
+          </a>
+        </p>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  {% if disciplinas_matriculadas %}
+  <section class="container aluno">
+    <div class="presenca">
+      <h1 class="container__texto">Todas as disciplinas cadastradas</h1>
+      <table class="table-striped-columns">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Professor</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for disciplina in disciplinas_matriculadas %}
+          <tr>
+            <td>{{disciplina.nome}}</td>
+            <td>{{disciplina.professor.nome}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  {% else %}
+  <div class="container flex">
+    <h2 class="container__texto" style="text-align: center">
+      POR FAVOR CADASTRE UMA DISCIPLINA PARA TER ACESSO AS AULAS
+    </h2>
+    <img
+      class="container__imagem"
+      src="../../static/img/ilustracao-404-not-found.webp"
+      alt=""
+    />
+  </div>
+  {% endif %}
+</section>
+
+<div id="modal_disciplina" class="modal">
+  <div class="modal-content">
+    <span
+      class="close"
+      onclick="document.getElementById('modal_disciplina').style.display='none'"
+      >&times;</span
+    >
+    <form
+      class="form_disciplina_aluno"
+      action="{{ url_for('cadastrar_disciplina_page' ) }}"
+      method="post"
+    >
+      <div class="login__card-campo">
+        <label for="nome">Código</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nome"
+          placeholder="Digite o código da disciplina"
+          name="disciplina_codigo"
+        />
+      </div>
+      <div class="disciplina_aluno_button">
+        <button type="submit" class="button">Salvar</button>
+        <button
+          type="button"
+          class="button"
+          onclick="document.getElementById('modal_disciplina').style.display='none'"
+        >
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Abrir modal
+  function openModal(aula_id) {
+    var modal = document.getElementById('myModal');
+    modal.style.display = 'block';
+    // Passar o ID da aula para o formulário
+    var form = modal.querySelector('form');
+    var input = form.querySelector('input[name=aula_id]');
+    input.value = aula_id;
+  }
+
+  // Fechar modal
+  function closeModal() {
+    var modal = document.getElementById('myModal');
+    var modal_disciplina = document.getElementById('modal_disciplina');
+    modal.style.display = 'none';
+    modal_disciplina.style.display = 'none';
+  }
+
+  window.onclick = function (event) {
+    var modal = document.getElementById('myModal');
+    var modal_disciplina = document.getElementById('modal_disciplina');
+    if (event.target == modal) {
+      modal.style.display = 'none';
+    }
+    if (event.target == modal_disciplina) {
+      modal_disciplina.style.display = 'none';
+    }
+  };
+</script>
+{% endblock%}
