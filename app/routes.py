@@ -16,7 +16,7 @@ from datetime import datetime, timezone, timedelta
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return redirect(url_for('login'))
+    return redirect(url_for('login_page'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
@@ -44,11 +44,6 @@ def register_page():
     if form.validate_on_submit():
         matricula = form.matricula.data
         matricula_professor = MatriculaProfessor.query.filter_by(matricula=matricula).first()
-        matricula_aluno = MatriculaAluno.query.filter_by(matricula=matricula).first()
-
-        if not matricula_professor and not matricula_aluno and matricula != '999999999':
-            flash(f'Matrícula inválida, peça para ADMIN cadastra-la', category='danger')
-            return redirect(url_for('register_page'))
 
         user = User(matricula=matricula,
                     email = form.email.data,
@@ -56,7 +51,6 @@ def register_page():
                     senha=form.senha.data)
 
         user.eh_professor = True if matricula_professor else False
-        
     
         db.session.add(user)
         db.session.commit()
@@ -275,28 +269,3 @@ def relatorio_presenca(aula_id):
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = f'attachment; filename=relatorio_presencas_{aula.nome}.pdf'
     return response
-
-@app.route('/admin', methods=['GET', 'POST'])
-@login_required
-def admin_page():
-    form = MatriculaForm()
-
-    if form.validate_on_submit():
-        eh_professor = form.eh_professor.data
-
-        if eh_professor:
-            professor = MatriculaProfessor(matricula=form.matricula.data)
-            db.session.add(professor)
-            db.session.commit()
-            return redirect(url_for('admin_page'))
-        
-        aluno = MatriculaAluno(matricula=form.matricula.data)
-        db.session.add(aluno)
-        db.session.commit()
-        return redirect(url_for('admin_page'))
-    
-    professores = MatriculaProfessor.query.all()
-    alunos = MatriculaAluno.query.all()
-
-    return render_template('pages/admin.html', alunos=alunos, professores=professores)
-

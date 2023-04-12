@@ -62,7 +62,7 @@ class Disciplina(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nome = db.Column(db.String(100), nullable=False)
     professor_matricula = db.Column(db.String, db.ForeignKey('user.matricula'), nullable=True)
-    codigo = db.Column(db.Integer, nullable=True, unique=True)
+    codigo = db.Column(db.String, nullable=True, unique=True)
     
     professor = db.relationship('User', backref='disciplinas_ministradas', foreign_keys=[professor_matricula])
     alunos = db.relationship('User', secondary=alunos_disciplinas, backref='disciplinas_matriculadas')
@@ -94,7 +94,7 @@ class Presenca(db.Model):
 class Aula(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nome = db.Column(db.String(100), nullable=False)
-    codigo = db.Column(db.Integer, nullable=True)
+    codigo = db.Column(db.String, nullable=True)
     aberta = db.Column(db.Boolean, nullable=True, default=False)
     data = db.Column(db.DateTime, nullable=True, default=datetime.now(fuso_horario))
     data_fechamento = db.Column(db.DateTime, nullable=True, default=datetime.now(fuso_horario))
