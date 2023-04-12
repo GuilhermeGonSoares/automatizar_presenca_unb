@@ -6,13 +6,17 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import inch
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from flask import render_template, redirect, url_for, flash, request, make_response
-from .forms import RegisterForm, LoginForm
+from .forms import RegisterForm, LoginForm, MatriculaForm
 from .models import User, MatriculaAluno, MatriculaProfessor, Aula, Presenca, Disciplina, alunos_disciplinas
 from.utils import professor_required
 from flask_login import login_user, login_required, logout_user, current_user
 from .models import fuso_horario
 from datetime import datetime, timezone, timedelta
 
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return redirect(url_for('login'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
@@ -42,7 +46,7 @@ def register_page():
         matricula_professor = MatriculaProfessor.query.filter_by(matricula=matricula).first()
         matricula_aluno = MatriculaAluno.query.filter_by(matricula=matricula).first()
 
-        if not matricula_professor and not matricula_aluno:
+        if not matricula_professor and not matricula_aluno and matricula != '999999999':
             flash(f'Matrícula inválida, peça para ADMIN cadastra-la', category='danger')
             return redirect(url_for('register_page'))
 
@@ -272,14 +276,27 @@ def relatorio_presenca(aula_id):
     response.headers['Content-Disposition'] = f'attachment; filename=relatorio_presencas_{aula.nome}.pdf'
     return response
 
-@app.route('/sigaa', methods=['GET', 'POST'])
-def sigaa_page():
-    if request.method == 'POST':
-        print(request.form)
-        return redirect(url_for('sigaa_page'))
+@app.route('/admin', methods=['GET', 'POST'])
+@login_required
+def admin_page():
+    form = MatriculaForm()
+
+    if form.validate_on_submit():
+        eh_professor = form.eh_professor.data
+
+        if eh_professor:
+            professor = MatriculaProfessor(matricula=form.matricula.data)
+            db.session.add(professor)
+            db.session.commit()
+            return redirect(url_for('admin_page'))
+        
+        aluno = MatriculaAluno(matricula=form.matricula.data)
+        db.session.add(aluno)
+        db.session.commit()
+        return redirect(url_for('admin_page'))
     
-    alunos = User.query.join(Presenca).filter_by(eh_professor=False).all()
+    professores = MatriculaProfessor.query.all()
+    alunos = MatriculaAluno.query.all()
 
-
-    return render_template('pages/sigaa.html', alunos=alunos)
+    return render_template('pages/admin.html', alunos=alunos, professores=professores)
 

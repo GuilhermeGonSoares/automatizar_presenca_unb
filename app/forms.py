@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, EmailField
+from wtforms import StringField, PasswordField, SubmitField, EmailField, BooleanField
 from wtforms.validators import DataRequired, Email, Length, ValidationError
 from app.models import User
 
@@ -27,5 +27,11 @@ class LoginForm(FlaskForm):
     
     matricula = StringField(label='Matrícula', validators=[DataRequired(), Length(min=9, max=9, message='A matrícula deve ter 9 caracteres.')])
     senha = PasswordField(label='Senha', validators=[DataRequired(), Length(min=4, message="A senha tem que ter no mínimo 4 caracteres")])
+    submit = SubmitField(label='Login')
+
+class MatriculaForm(FlaskForm):
+    
+    matricula = StringField(label='Matrícula', validators=[DataRequired(), Length(min=9, max=9, message='A matrícula deve ter 9 caracteres.')])
+    eh_professor = BooleanField(label='É professor?')
     submit = SubmitField(label='Login')
     
