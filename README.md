@@ -1,5 +1,10 @@
 # Automatizar presença
 
+## DEPLOY:
+
+- Realizado utilizando site RENDER
+  <a src="https://unbpresenca.onrender.com/login">https://unbpresenca.onrender.com/login</a>
+
 ## Objetivos:
 
 - Permitir que o aluno marque presença online, para evitar que o professor perca muito tempo com a chamada oral tradicional.
