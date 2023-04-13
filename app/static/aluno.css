@@ -5,3 +5,10 @@
   gap: 3rem;
   margin: 3rem auto;
 }
+
+@media (max-width: 1000px) {
+  .grid_aluno {
+    display: flex;
+    flex-direction: column;
+  }
+}

@@ -79,13 +79,13 @@ class Disciplina(db.Model):
     @staticmethod
     def on_before_insert(mapper, connection, target):
         target.codigo = Disciplina.generate_code()
-        target.data = datetime.now(fuso_horario)
+        target.data = datetime.now()
 
 class Presenca(db.Model):
     user_matricula = db.Column(db.String, db.ForeignKey('user.matricula'), primary_key=True)
     aula_id = db.Column(db.Integer, db.ForeignKey('aula.id'), primary_key=True)
     presente = db.Column(db.Boolean, nullable=False, default=False)
-    data = db.Column(db.DateTime, nullable=True, default=datetime.now(fuso_horario))
+    data = db.Column(db.DateTime, nullable=True, default=datetime.now())
 
     user = db.relationship('User', back_populates='presenca_todas_aulas')
     aula = db.relationship('Aula', back_populates='presencas')
@@ -96,8 +96,8 @@ class Aula(db.Model):
     nome = db.Column(db.String(100), nullable=False)
     codigo = db.Column(db.String, nullable=True)
     aberta = db.Column(db.Boolean, nullable=True, default=False)
-    data = db.Column(db.DateTime, nullable=True, default=datetime.now(fuso_horario))
-    data_fechamento = db.Column(db.DateTime, nullable=True, default=datetime.now(fuso_horario))
+    data = db.Column(db.DateTime, nullable=True, default=datetime.now())
+    data_fechamento = db.Column(db.DateTime, nullable=True, default=datetime.now())
     disciplina_id = db.Column(db.Integer, db.ForeignKey('disciplina.id'), nullable=False)
 
     presencas = db.relationship('Presenca', cascade='all, delete-orphan')
@@ -114,7 +114,7 @@ class Aula(db.Model):
     @staticmethod
     def on_before_insert(mapper, connection, target):
         target.codigo = Aula.generate_code()
-        target.data = datetime.now(fuso_horario)
+        target.data = datetime.now()
     
 
 #EVENTOS LISTENER -> EVENTOS DISPARADOS ANTES DE SALVAR OU NA HORA DE ATUALIZAR
@@ -124,9 +124,9 @@ event.listen(Disciplina, 'before_insert', Disciplina.on_before_insert, propagate
 @event.listens_for(Aula.aberta, 'set')
 def aula_aberta_listener(target, value, oldvalue, initiator):
     if oldvalue == True and value == False:
-        target.data_fechamento = datetime.now(fuso_horario)
+        target.data_fechamento = datetime.now()
 
 @event.listens_for(Presenca.presente, 'set')
 def marcar_presenca_listener(target, value, oldvalue, initiator):
     if oldvalue == False and value == True:
-        target.data = datetime.now(fuso_horario)
+        target.data = datetime.now()

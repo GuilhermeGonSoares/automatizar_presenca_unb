@@ -6,12 +6,11 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import inch
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from flask import render_template, redirect, url_for, flash, request, make_response
-from .forms import RegisterForm, LoginForm, MatriculaForm
-from .models import User, MatriculaAluno, MatriculaProfessor, Aula, Presenca, Disciplina, alunos_disciplinas
+from .forms import RegisterForm, LoginForm
+from .models import User, MatriculaProfessor, Aula, Presenca, Disciplina, alunos_disciplinas
 from.utils import professor_required
 from flask_login import login_user, login_required, logout_user, current_user
-from .models import fuso_horario
-from datetime import datetime, timezone, timedelta
+from datetime import datetime
 
 
 @app.errorhandler(404)
@@ -129,12 +128,12 @@ def disciplina_aluno_page(disciplina_id):
 def marcar_presenca(disciplina_id):
     aula_id = request.form['aula_id']
     codigo = request.form['codigo']
-    data = datetime.now(fuso_horario) #Data atual na hora de marcar presenca
+    data = datetime.now() #Data atual na hora de marcar presenca
 
     aula = Aula.query.filter_by(id=aula_id).first()
-    data_com_fuso = aula.data.replace(tzinfo=timezone(timedelta(hours=-3)))
+    data_aula = aula.data
 
-    intervalo_inicio_chamada_marcar_presenca = (data - data_com_fuso).seconds//60
+    intervalo_inicio_chamada_marcar_presenca = (data - data_aula).seconds//60
 
     if aula.codigo != codigo:
         flash('Código incorreto, tente novamente.', 'danger')
@@ -167,10 +166,10 @@ def create_aula_page(disciplina_id):
     db.session.commit()
     return redirect(url_for('disciplina_page', disciplina_id=disciplina_id))
 
-@app.route('/deletarAula/<int:aula_id>', methods=['GET'])
+@app.route('/deletarAula/aula/<int:aula_id>/disciplina/<int:disciplina_id>', methods=['GET'])
 @login_required
 @professor_required
-def deletar_aula(aula_id):
+def deletar_aula(aula_id, disciplina_id):
     print('aula', aula_id)
     aula = Aula.query.get(aula_id)
     if not aula:
@@ -180,7 +179,7 @@ def deletar_aula(aula_id):
     db.session.delete(aula)
     db.session.commit()
     flash('Aula excluída com sucesso!', 'success')
-    return redirect(url_for('professor_page'))
+    return redirect(url_for('disciplina_page', disciplina_id=disciplina_id))
 
 
 @app.route('/createDisciplina', methods=['POST'])

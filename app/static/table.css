@@ -40,3 +40,28 @@ table {
 .table-striped-columns tbody tr:nth-child(even) td {
   background-color: var(--cor-clara);
 }
+
+@media (max-width: 1000px) {
+  .table-striped-columns td .button {
+    width: auto;
+  }
+
+  .table-striped-columns th:nth-child(5),
+  .table-striped-columns td:nth-child(5) {
+    width: 50%;
+  }
+  .table-striped-columns th:nth-child(4),
+  .table-striped-columns td:nth-child(4) {
+    display: none;
+  }
+}
+
+@media (max-width: 650px) {
+  .presenca {
+    overflow: auto;
+  }
+  .table-striped-columns th:nth-child(3),
+  .table-striped-columns td:nth-child(3) {
+    display: none;
+  }
+}

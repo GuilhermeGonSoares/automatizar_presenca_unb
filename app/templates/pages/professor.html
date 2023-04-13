@@ -93,7 +93,7 @@
             </td>
             <td>
               <a
-                href="{{ url_for('deletar_aula', aula_id=aula.id ) }}"
+                href="{{ url_for('deletar_aula', aula_id=aula.id, disciplina_id=disciplina.id ) }}"
                 onclick="return confirm('Tem certeza de que deseja excluir esta aula?')"
                 ><button class="button">Excluir</button>
               </a>

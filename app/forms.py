@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, EmailField, BooleanField
-from wtforms.validators import DataRequired, Email, Length, ValidationError
+from wtforms.validators import DataRequired, Email, Length, ValidationError, Regexp
 from app.models import User
 
 class RegisterForm(FlaskForm):
@@ -18,7 +18,7 @@ class RegisterForm(FlaskForm):
             raise ValidationError('Matricula já cadastrado')
 
     matricula = StringField(label='Matrícula', validators=[DataRequired(), Length(min=9, max=9, message='A matrícula deve ter 9 caracteres.')])
-    email = StringField(label='Email', validators=[DataRequired(), Email()])
+    email = StringField(label='Email', validators=[DataRequired(), Regexp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', message='Email inválido')])
     nome = StringField(label='Nome', validators=[DataRequired(), Length(min=2, max=50)])
     senha = PasswordField(label='Senha', validators=[DataRequired(), Length(min=4, message="A senha tem que ter no mínimo 4 caracteres")])
     submit = SubmitField(label='Registrar')
