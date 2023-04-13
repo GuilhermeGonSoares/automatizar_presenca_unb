@@ -5,6 +5,30 @@
 - Realizado utilizando site RENDER
   <a src="https://unbpresenca.onrender.com/login">https://unbpresenca.onrender.com/login</a>
 
+## FERRAMENTAS:
+
+<p aling='left'>
+<ul style="display:grid; gap:0.5em"> 
+  <li style="display: flex; align-items: center; gap: 0.5em">
+  Python
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="25" height="25" style="max-width: 100%;">
+  </li>
+  <li style="display: flex; align-items: center; gap: 0.5em">
+  Flask
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/flask/flask-original-wordmark.svg" alt="python" width="25" height="25" style="max-width: 100%;">
+  </li>
+  <li style="display: flex; align-items: center; gap: 0.5em">
+  HTML e CSS
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="html5" width="25" height="25" style="max-width: 100%;">
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="css3" width="25" height="25" style="max-width: 100%;">
+  </li>
+  <li style="display: flex; align-items: center; gap: 0.5em">
+  PostgreSQL
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="25" height="25" style="max-width: 100%;">
+  </li>
+</ul>
+</p>
+
 ## Objetivos:
 
 - Permitir que o aluno marque presença online, para evitar que o professor perca muito tempo com a chamada oral tradicional.
