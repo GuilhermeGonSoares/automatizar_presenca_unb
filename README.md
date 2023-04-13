@@ -36,8 +36,8 @@
 
 ## Implementação
 
-- Os alunos precisarão de fornecer o código da disciplina para poder se cadastrar nela.
-- Os alunos precisarão fornecer um código, que será gerado para a aula, para validar a sua presença em sala de aula.
+- Os professores precisarão fornecer o código da disciplina para que os alunos possam se cadastrar nela.
+- Para cada aula criada pelo professor, existirá um código, para aquela aula, que os alunos irão utilizar para validar a sua presença em sala de aula.
 - Para que não tenha só esse codigo que poderia ser passado para outros alunos, fora da sala, pensei em duas possibilidades:
 
   1. Permitir que apenas usuários utilizando o wifi da faculdade possam realizar login e utilizar o sistema. (FALTA IMPLEMENTAR)
