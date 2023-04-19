@@ -128,5 +128,29 @@
       modal_disciplina.style.display = 'none';
     }
   };
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    console.log('Geolocation is not supported by this browser.');
+  }
+
+  function showPosition(position) {
+    const lat = position.coords.latitude;
+    const lng = position.coords.longitude;
+    const postUrl = '{{ url_for("aluno_page") }}';
+    console.log(postUrl);
+    axios
+      .post(postUrl, {
+        latitude: lat,
+        longitude: lng,
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 </script>
 {% endblock%}
