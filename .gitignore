@@ -31,8 +31,7 @@ MANIFEST
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
-db.sqlite3
-db.sqlite3-journal
+
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
