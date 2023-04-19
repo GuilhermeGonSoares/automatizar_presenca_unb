@@ -9,12 +9,6 @@ from flask_login import LoginManager
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sqlite.db'
-
-# Internal
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://controle_frequencia_user:a0hkpvsHOpBSoeXXaFjjHs04SGvsdpMa@dpg-cgrcrcrk9u56e3lod2l0-a/controle_frequencia'
-# External
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://controle_frequencia_user:a0hkpvsHOpBSoeXXaFjjHs04SGvsdpMa@dpg-cgrcrcrk9u56e3lod2l0-a.oregon-postgres.render.com/controle_frequencia'
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
