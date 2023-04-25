@@ -43,7 +43,7 @@
   1. Permitir que apenas usuários utilizando o wifi da faculdade possam realizar login e utilizar o sistema. (FALTA IMPLEMENTAR)
   2. Além disso, estou analisando a viabilidade de utilizar Geolocalização, para que apenas alunos dentro de um raio da sala de aula poderiam marcar presença
   
-#### Implementando geolocalização com a API do Google Maps:
+## Implementando geolocalização com a API do Google Maps:
 
 - Modifiquei o cadastro da aula, para que ele aceite a localização da aula.
 - Essa localização e fornecida em um autocomplete utilizando a API do Google que fornece possíveis localizações para a aula.
