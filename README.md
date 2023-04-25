@@ -42,6 +42,15 @@
 
   1. Permitir que apenas usuários utilizando o wifi da faculdade possam realizar login e utilizar o sistema. (FALTA IMPLEMENTAR)
   2. Além disso, estou analisando a viabilidade de utilizar Geolocalização, para que apenas alunos dentro de um raio da sala de aula poderiam marcar presença
+  
+#### Implementando geolocalização com a API do Google Maps:
+
+- Modifiquei o cadastro da aula, para que ele aceite a localização da aula.
+- Essa localização e fornecida em um autocomplete utilizando a API do Google que fornece possíveis localizações para a aula.
+- Quando o professor selecionar a localização será salvo no banco de dados além do Nome e Código da aula a latitude e longitude proveniente da localização fornecida pelo google. A API do Google fornece diversas informações, incluido a latitude e longitude.
+- Com a Latitude e Longitude da aula pude definir uma área na qual o aluno precisa estar dentro para que possa marcar a presença. Essa área, é um quadrado com a Latitude e Longitude da aula sendo o centro do quadrado.
+- Para obter a Latitude e Longitude do aluno foi necessário utilizar uma ferramenta do Javascript: Navigator: geolocation property. Ela fornece informações sobre a geolocalização do aluno, caso ele permita o navegador ter acesso. Com isso, basta eu verificar se o aluno está contido na área que foi definida.
+- Lembrando que não é salvo a localização do aluno, é apenas verificado se ele está na área.
 
 ### Login/ Registro
 
