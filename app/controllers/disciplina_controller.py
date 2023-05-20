@@ -24,7 +24,7 @@ def list():
         )
 
     disciplinas_matriculadas = current_user.disciplinas_matriculadas
-    presencas = current_user.presenca_todas_aulas.order_by(desc(Presenca.data))
+    presencas = current_user.presenca_todas_aulas.order_by(desc(Presenca.data)).limit(6)
     return render_template(
         "pages/aluno-disciplina.html",
         disciplinas_matriculadas=disciplinas_matriculadas,
@@ -85,6 +85,25 @@ def create():
     return redirect(url_for("disciplina.show", disciplina_id=nova_disciplina.id))
 
 
+@bp.route("/<int:disciplina_id>/delete")
+@login_required
+@professor_required
+def delete(disciplina_id):
+    """
+    Professor pode deletar a disciplina
+    """
+
+    disciplina = Disciplina.query.get(disciplina_id)
+    if not disciplina:
+        flash("Id da aula inválido!", "danger")
+        return redirect(url_for("disciplina.list"))
+
+    db.session.delete(disciplina)
+    db.session.commit()
+    flash("Disciplina excluída com sucesso!", "success")
+    return redirect(url_for("disciplina.list"))
+
+
 @bp.route("/cadastrar", methods=["POST"])
 @login_required
 def cadastrar_disciplina():
@@ -107,23 +126,4 @@ def cadastrar_disciplina():
 
     db.session.commit()
     flash(f"Disciplina cadastrada", category="success")
-    return redirect(url_for("disciplina.list"))
-
-
-@bp.route("/<int:disciplina_id>/delete")
-@login_required
-@professor_required
-def delete(disciplina_id):
-    """
-    Professor pode deletar a disciplina
-    """
-
-    disciplina = Disciplina.query.get(disciplina_id)
-    if not disciplina:
-        flash("Id da aula inválido!", "danger")
-        return redirect(url_for("disciplina.list"))
-
-    db.session.delete(disciplina)
-    db.session.commit()
-    flash("Disciplina excluída com sucesso!", "success")
     return redirect(url_for("disciplina.list"))
