@@ -70,6 +70,8 @@
       <div class="">
         <label for="codigo">Código da aula:</label>
         <input type="text" name="codigo" id="codigo" />
+        <input type="hidden" name="latitude" id="latitude">
+        <input type="hidden" name="longitude" id="longitude">
       </div>
       <button type="submit" class="button">Confirmar</button>
     </form>
@@ -122,6 +124,7 @@
   </div>
 </div>
 
+<script src="../../static/scripts/localizacaoAluno.js"></script>
 <script>
   // Abrir modal
   function openModal(aula_id) {

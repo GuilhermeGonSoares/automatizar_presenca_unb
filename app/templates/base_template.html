@@ -20,13 +20,17 @@
 
         <div class="navbar__items">
           {% if not current_user.is_authenticated %}
-          <a class="navbar__link" href="{{ url_for('login_page') }}">Login</a>
-          <a class="navbar__link" href="{{ url_for('register_page') }}"
+          <a class="navbar__link" href="{{ url_for('auth.session.login') }}"
+            >Login</a
+          >
+          <a class="navbar__link" href="{{ url_for('auth.session.register') }}"
             >Registrar</a
           >
           {% else %}
           <span class="navbar__nome">🤓{{ current_user.nome }}</span>
-          <a class="navbar__link" href="{{ url_for('logout_page') }}">Logout</a>
+          <a class="navbar__link" href="{{ url_for('auth.session.logout') }}"
+            >Logout</a
+          >
           {% endif %}
         </div>
       </nav>

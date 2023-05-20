@@ -12,17 +12,17 @@
       </button>
     </div>
       <h2 class="container__texto">
-        <a href="{{ url_for('professor_page' ) }}">Meus Cursos</a>
+        <a href="{{ url_for('disciplina.list' ) }}">Meus Cursos</a>
       </h2>
     <ul>
       {% for disciplina in disciplinas %}
       <li class="container__lista_disciplina">
-          <p class="container__texto"><a href="{{ url_for('disciplina_page', disciplina_id=disciplina.id ) }}">
+          <p class="container__texto"><a href="{{ url_for('disciplina.show', disciplina_id=disciplina.id ) }}">
             {{disciplina.nome}}
           </a></p>
           <p class="container__texto">{{disciplina.codigo}}</p>
           <a
-            href="{{ url_for('deletar_disciplina', disciplina_id=disciplina.id ) }}"
+            href="{{ url_for('disciplina.delete', disciplina_id=disciplina.id ) }}"
             onclick="return confirm('Tem certeza de que deseja excluir esta aula?')"
             ><button class="button">Excluir</button>
           </a>
@@ -126,6 +126,16 @@
             placeholder="Digite o nome da aula"
             name="aula"
           />
+          <label for="localizacao">Localização</label>
+          <input
+            type="text"
+            class="form-control"
+            id="localizacao"
+            placeholder="Digite a Localização da aula"
+            name="localizacao"
+          />
+          <input type="hidden" name="latitude" id="latitude">
+          <input type="hidden" name="longitude" id="longitude">
         </div>
         <button type="submit" class="button">Salvar</button>
         <button
@@ -160,7 +170,7 @@
     >
     <form
       class="form-group"
-      action="{{ url_for('create_disciplina_page' ) }}"
+      action="{{ url_for('disciplina.create' ) }}"
       method="post"
     >
       <div class="login__card-campo">
@@ -185,6 +195,11 @@
   </div>
 </div>
 
+<script>
+  const apiKey = "{{ api_key }}";
+</script>
+
+<script src="../../static/scripts/autocomplete.js"></script>
 <script>
   // Fecha o modal quando o usuário clica fora dele
   window.onclick = function (event) {
