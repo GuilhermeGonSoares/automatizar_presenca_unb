@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="X-UA-Compatible"
+      content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="style.css" />
+  </head>
+
+  <body>
+    <aside class="side-bar">
+      <a
+        href="http://127.0.0.1:5500/home.html"
+        class="flex-group logo">
+        <img
+          src="assets/Logo.svg"
+          alt="Company Logo" />
+        <h1>Attendance<span class="io">.io</span></h1>
+      </a>
+      <h2>Services</h2>
+      <ul class="side-bar--options">
+        <li class="option active">
+          <i></i>
+          <div class="flex-group">
+            <a href="http://127.0.0.1:5500/home.html">
+              <img
+                class="active-icon"
+                src="assets/home-icon.svg"
+                alt="" />
+              Dashboard</a
+            >
+          </div>
+        </li>
+        <li class="option">
+          <a href="http://127.0.0.1:5500/materias.html">
+            <img
+              src="assets/subject-icon.png"
+              alt="" />
+            Materias</a
+          >
+        </li>
+        <li class="option">
+          <a href="#">
+            <img
+              src="assets/extras-icon.svg"
+              alt="" />
+            Extras</a
+          >
+        </li>
+        <li class="option">
+          <div class="flex-group space-between">
+            <a href="#">
+              <img
+                src="assets/notis-icon.svg"
+                alt="" />Notificacoes</a
+            >
+            <span class="notis-tag">5</span>
+          </div>
+        </li>
+      </ul>
+      <div class="addon">
+        <div class="flex-group">
+          <h3 class="addon--title">Quer faltar mais dias?</h3>
+          <span class="addon--tag">PRO</span>
+        </div>
+        <p class="addon--text">Experimente 1 mês gratuito e nunca mais tome mais nenhuma falta!</p>
+        <a
+          href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"
+          class="addon--btn"
+          style="text-align: center"
+          >Upgrade to Pro</a
+        >
+      </div>
+    </aside>
+    <main>
+      <nav class="flex-group main--nav-bar">
+        <!-- <label for="search"></label> -->
+        <input
+          type="text"
+          id="search"
+          placeholder="🔍 Service Oriented ..."
+          class="search-input" />
+        <div class="side-user-profile">
+          <div class="flex-group">
+            <img
+              src="assets/profile-picture.svg"
+              alt="User Picture" />
+            <div class="user-data">
+              <p class="user-name">Gabriel Farago</p>
+              <p class="user-email">gabrielfarago@gmail.com</p>
+            </div>
+            <button class="side-profile--dropdown">
+              <img
+                src="assets/arrow-down-lg-icon.svg"
+                alt="" />
+            </button>
+          </div>
+        </div>
+      </nav>
+      <section class="student-details">
+        <div class="flex-group section-nav">
+          <h2 class="section-title">Detalhes do Aluno</h2>
+          <div class="student-deatils--btns">
+            <button class="btn subject-btn">
+              <div class="flex-group">
+                Disciplinas
+                <img
+                  src="assets/arrow_down.svg"
+                  alt="" />
+              </div>
+            </button>
+            <button
+              onclick=""
+              class="btn log-subject-btn">
+              Cadastrar Disciplina
+            </button>
+          </div>
+        </div>
+        <div class="student-profile">
+          <div class="flex-group align-start">
+            <img
+              class="student-profile--picture"
+              src="assets/profile-picture-lg.svg"
+              alt="" />
+            <div class="student-profile--info">
+              <span class="student-profile--name">Gabriel Farago</span>
+              <div class="student-profile--subject">
+                <span class="student-profie--subject--label">Disciplina</span>
+                <span class="student-profie--subject--name">Engenharia de Software</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="student-options grid-flow">
+          <div class="option-box attendances">
+            <div class="flex-group">
+              <div class="option-icon">
+                <img
+                  src="assets/arrow_right_icon.svg"
+                  alt="" />
+              </div>
+              <div>
+                <p class="option-data">45 Presenças</p>
+                <p class="option-label">Presenças Totais</p>
+              </div>
+            </div>
+          </div>
+          <div class="option-box arrivals">
+            <div class="flex-group">
+              <div class="option-icon">
+                <img
+                  src="assets/arrow_diagonal_icon.svg"
+                  alt="" />
+              </div>
+              <div>
+                <p class="option-data">08:10:54</p>
+                <p class="option-label">Média de Chegada</p>
+              </div>
+            </div>
+          </div>
+          <div class="option-box absences">
+            <div class="flex-group gap">
+              <div class="option-icon">
+                <img
+                  src="assets/closing_icon.svg"
+                  alt="" />
+              </div>
+              <div>
+                <p class="option-data">21</p>
+                <p class="option-label">Faltas Totais</p>
+              </div>
+            </div>
+          </div>
+          <div class="option-box attendance-rate">
+            <div class="flex-group">
+              <div class="option-icon">
+                <img
+                  src="assets/check_icon.svg"
+                  alt="" />
+              </div>
+              <div>
+                <p class="option-data">57%</p>
+                <p class="option-label">Aproveitamento</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="attendance-record">
+        <h2 class="section-title">Histórico de presenças</h2>
+        <div class="attendances-grid">
+          <div class="attendance-record--card">
+            <div class="flex-group space-between">
+              <div class="flex-group">
+                <img
+                  src="assets/clock_icon.svg"
+                  alt="" />
+                <span class="attendance-card-date">23 de Março 2023</span>
+              </div>
+              <span class="attendance-card-status">Presente</span>
+            </div>
+            <div class="auxiliar-in-out">
+              <div class="flex-group space-between">
+                <h3>Chegada</h3>
+                <h3>Saida</h3>
+              </div>
+              <div class="flex-group space-between">
+                <span class="arrival-time">08:40</span>
+                <span class="exit-time">09:55</span>
+              </div>
+            </div>
+          </div>
+          <div class="attendance-record--card">
+            <div class="flex-group space-between">
+              <div class="flex-group">
+                <img
+                  src="assets/clock_icon.svg"
+                  alt="" />
+                <span class="attendance-card-date">23 de Março 2023</span>
+              </div>
+              <span class="attendance-card-status">Presente</span>
+            </div>
+            <div class="auxiliar-in-out">
+              <div class="flex-group space-between">
+                <h3>Chegada</h3>
+                <h3>Saida</h3>
+              </div>
+              <div class="flex-group space-between">
+                <span class="arrival-time">08:40</span>
+                <span class="exit-time">09:55</span>
+              </div>
+            </div>
+          </div>
+          <div class="attendance-record--card">
+            <div class="flex-group space-between">
+              <div class="flex-group">
+                <img
+                  src="assets/clock_icon.svg"
+                  alt="" />
+                <span class="attendance-card-date">23 de Março 2023</span>
+              </div>
+              <span class="attendance-card-status">Presente</span>
+            </div>
+            <div class="auxiliar-in-out">
+              <div class="flex-group space-between">
+                <h3>Chegada</h3>
+                <h3>Saida</h3>
+              </div>
+              <div class="flex-group space-between">
+                <span class="arrival-time">08:40</span>
+                <span class="exit-time">09:55</span>
+              </div>
+            </div>
+          </div>
+          <div class="attendance-record--card">
+            <div class="flex-group space-between">
+              <div class="flex-group">
+                <img
+                  src="assets/clock_icon.svg"
+                  alt="" />
+                <span class="attendance-card-date">23 de Março 2023</span>
+              </div>
+              <span class="attendance-card-status">Presente</span>
+            </div>
+            <div class="auxiliar-in-out">
+              <div class="flex-group space-between">
+                <h3>Chegada</h3>
+                <h3>Saida</h3>
+              </div>
+              <div class="flex-group space-between">
+                <span class="arrival-time">08:40</span>
+                <span class="exit-time">09:55</span>
+              </div>
+            </div>
+          </div>
+          <div class="attendance-record--card">
+            <div class="flex-group space-between">
+              <div class="flex-group">
+                <img
+                  src="assets/clock_icon.svg"
+                  alt="" />
+                <span class="attendance-card-date">23 de Março 2023</span>
+              </div>
+              <span class="attendance-card-status">Presente</span>
+            </div>
+            <div class="auxiliar-in-out">
+              <div class="flex-group space-between">
+                <h3>Chegada</h3>
+                <h3>Saida</h3>
+              </div>
+              <div class="flex-group space-between">
+                <span class="arrival-time">08:40</span>
+                <span class="exit-time">09:55</span>
+              </div>
+            </div>
+          </div>
+          <div class="attendance-record--card">
+            <div class="flex-group space-between">
+              <div class="flex-group">
+                <img
+                  src="assets/clock_icon.svg"
+                  alt="" />
+                <span class="attendance-card-date">23 de Março 2023</span>
+              </div>
+              <span class="attendance-card-status">Presente</span>
+            </div>
+            <div class="auxiliar-in-out">
+              <div class="flex-group space-between">
+                <h3>Chegada</h3>
+                <h3>Saida</h3>
+              </div>
+              <div class="flex-group space-between">
+                <span class="arrival-time">08:40</span>
+                <span class="exit-time">09:55</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <div class="modal-background hidden">
+      <div class="modal">
+        <div class="option-icon form-top-icon">
+          <img
+            src="assets/form-top-icon.svg"
+            alt="" />
+        </div>
+        <h1 class="modal-title">Cadastre-se na Disciplina</h1>
+        <button class="close-btn">
+          <img
+            src="assets/close-icon.svg"
+            alt=""
+            class="close-icon" />
+        </button>
+        <p class="modal-desc">
+          Certifique-se que o código da disciplina <br />
+          e sua matrícula estão corretas
+        </p>
+        <form action="#">
+          <div class="form-group">
+            <label for="class-id">Codigo da Disciplina</label>
+            <input
+              type="text"
+              name="class-id"
+              id="class-id"
+              placeholder="Ex: 123456"
+              class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="matricula">Sua Matricula</label>
+            <input
+              type="text"
+              name="matricula"
+              id="matricula"
+              placeholder="Ex: 202064639"
+              class="form-input" />
+          </div>
+          <button class="btn submit-btn">Cadastrar Disciplina</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

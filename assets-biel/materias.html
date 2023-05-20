@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="X-UA-Compatible"
+      content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="style.css" />
+  </head>
+
+  <body>
+    <aside class="side-bar">
+      <a
+        href="http://127.0.0.1:5500/home.html"
+        class="flex-group logo">
+        <img
+          src="assets/Logo.svg"
+          alt="Company Logo" />
+        <h1>Attendance<span class="io">.io</span></h1>
+      </a>
+      <h2>Services</h2>
+      <ul class="side-bar--options">
+        <li class="option">
+          <i></i>
+          <div class="flex-group">
+            <a href="http://127.0.0.1:5500/home.html">
+              <img
+                src="assets/home-icon.svg"
+                alt="" />
+              Dashboard</a
+            >
+          </div>
+        </li>
+        <li class="option active">
+          <a href="http://127.0.0.1:5500/materias.html">
+            <img
+              class="active-icon"
+              src="assets/subject-icon.png"
+              alt="" />
+            Materias</a
+          >
+        </li>
+        <li class="option">
+          <a href="#">
+            <img
+              src="assets/extras-icon.svg"
+              alt="" />
+            Extras</a
+          >
+        </li>
+        <li class="option">
+          <div class="flex-group space-between">
+            <a href="#">
+              <img
+                src="assets/notis-icon.svg"
+                alt="" />Notificacoes</a
+            >
+            <span class="notis-tag">5</span>
+          </div>
+        </li>
+      </ul>
+      <div class="addon">
+        <div class="flex-group">
+          <h3 class="addon--title">Quer faltar mais dias?</h3>
+          <span class="addon--tag">PRO</span>
+        </div>
+        <p class="addon--text">Experimente 1 mês gratuito e nunca mais tome mais nenhuma falta!</p>
+        <button class="addon--btn">Upgrade to Pro</button>
+      </div>
+    </aside>
+    <main>
+      <nav class="flex-group main--nav-bar">
+        <!-- <label for="search"></label> -->
+        <input
+          type="text"
+          id="search"
+          placeholder="🔍 Service Oriented ..."
+          class="search-input" />
+        <div class="side-user-profile">
+          <div class="flex-group">
+            <img
+              src="assets/profile-picture.svg"
+              alt="User Picture" />
+            <div class="user-data">
+              <p class="user-name">Gabriel Farago</p>
+              <p class="user-email">gabrielfarago@gmail.com</p>
+            </div>
+            <button class="side-profile--dropdown">
+              <img
+                src="assets/arrow-down-lg-icon.svg"
+                alt="" />
+            </button>
+          </div>
+        </div>
+      </nav>
+      <section class="student-details">
+        <h2 class="section-title">Matérias de Hoje</h2>
+        <div class="flex-group classes-slider">
+          <button class="check-box">
+            <div class="flex-group">
+              <div class="option-icon danger">
+                <img
+                  src="assets/unchecked-icon.svg"
+                  alt="" />
+              </div>
+              <div>
+                <p class="option-data">Unchecked</p>
+                <p class="option-label">Engenharia de Software</p>
+              </div>
+            </div>
+            <p class="attendance-state">
+              <span class="current-time">7:47</span> Fechou há 13 minutos
+            </p>
+          </button>
+          <button class="check-box">
+            <div class="flex-group">
+              <div class="option-icon success">
+                <img
+                  src="assets/checked-icon.svg"
+                  alt="" />
+              </div>
+              <div>
+                <p class="option-data">Checked</p>
+                <p class="option-label">Engenharia de Software</p>
+              </div>
+            </div>
+            <p class="attendance-state">
+              <span class="current-time">7:47</span> Aberta há 23 minutos
+            </p>
+          </button>
+          <button class="check-box">
+            <div class="flex-group">
+              <div class="option-icon neutral">
+                <img
+                  src="assets/wait-icon.svg"
+                  alt="" />
+              </div>
+              <div>
+                <p class="option-data">Check-in</p>
+                <p class="option-label">Engenharia de Software</p>
+              </div>
+            </div>
+            <p class="attendance-state">
+              <span class="current-time">7:47</span> 2h 13min para abrir
+            </p>
+          </button>
+        </div>
+      </section>
+      <section class="attendance-record">
+        <div class="flex-group section-nav">
+          <h2 class="section-title">Histórico da Disciplina</h2>
+          <div class="student-deatils--btns">
+            <button class="btn subject-btn">
+              <div class="flex-group">
+                Engenharia de Software
+                <img
+                  src="assets/arrow_down.svg"
+                  alt="" />
+              </div>
+            </button>
+            <button
+              onclick=""
+              class="btn log-subject-btn">
+              <div class="flex-group">
+                <img
+                  src="assets/download-icon.svg"
+                  alt="" />
+                Download CSV
+              </div>
+            </button>
+          </div>
+        </div>
+        <div class="record-table">
+          <table className="content-table">
+            <thead>
+              <tr>
+                <th class="th-classes">
+                  <div class="flex-group">
+                    <img
+                      src="assets/classes-icon.svg"
+                      alt="" />Aulas
+                  </div>
+                </th>
+                <th class="th-status">
+                  <div class="flex-group">
+                    <img
+                      src="assets/status-icon.svg"
+                      alt="" />Status
+                  </div>
+                </th>
+                <th class="th-date">
+                  <div class="flex-group">
+                    <img
+                      src="assets/date-icon.svg"
+                      alt="" />Data
+                  </div>
+                </th>
+                <th class="th-content">
+                  <div class="flex-group">
+                    <img
+                      src="assets/content-icon.svg"
+                      alt="" />Conteúdo
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Modelo MVC</td>
+                <td><span class="abscent">• Ausente</span></td>
+                <td>23/05/2002</td>
+                <td>
+                  <div class="flex-group space-between">
+                    <a
+                      class="content-link"
+                      href=""
+                      >Slide Modelo MVC</a
+                    >
+                    <button class="download-btn">
+                      <div class="flex-group">
+                        <img
+                          src="assets/donwload-icon.svg"
+                          alt="" />Download
+                      </div>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Modelos de Arquitetura</td>
+                <td><span class="present">• Presente</span></td>
+                <td>23/05/2002</td>
+                <td>
+                  <div class="flex-group space-between">
+                    <a
+                      class="content-link"
+                      href=""
+                      >Videoaula sobre BDs</a
+                    >
+                    <button class="download-btn">
+                      <div class="flex-group">
+                        <img
+                          src="assets/donwload-icon.svg"
+                          alt="" />Download
+                      </div>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Flask WTF e Bancos de Dados</td>
+                <td><span class="opened">• Aberta</span></td>
+                <td>23/05/2002</td>
+                <td>
+                  <div class="flex-group space-between">
+                    <a
+                      class="content-link"
+                      href=""
+                      >Notas da aula</a
+                    >
+                    <button class="download-btn">
+                      <div class="flex-group">
+                        <img
+                          src="assets/donwload-icon.svg"
+                          alt="" />Download
+                      </div>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Formulários de Login</td>
+                <td><span class="closed">• Fechada</span></td>
+                <td>23/05/2002</td>
+                <td>
+                  <div class="flex-group space-between">
+                    <a
+                      class="content-link"
+                      href=""
+                      >Videoaula gravada</a
+                    >
+                    <button class="download-btn">
+                      <div class="flex-group">
+                        <img
+                          src="assets/donwload-icon.svg"
+                          alt="" />Download
+                      </div>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Gerenciamento de Usuários</td>
+                <td><span class="closed">• Fechada</span></td>
+                <td>23/05/2002</td>
+                <td>
+                  <div class="flex-group space-between">
+                    <a
+                      class="content-link"
+                      href=""
+                      >Exercícios do Capítulo</a
+                    >
+                    <button class="download-btn">
+                      <div class="flex-group">
+                        <img
+                          src="assets/donwload-icon.svg"
+                          alt="" />Download
+                      </div>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
