@@ -82,18 +82,18 @@
             </td>
             <td>
               {% if aula.aberta %}
-              <a href="{{ url_for('fechar_presenca_aula', aula_id=aula.id, disciplina_id=disciplina.id ) }}"
+              <a href="{{ url_for('presenca.fechar_presenca', aula_id=aula.id, disciplina_id=disciplina.id ) }}"
                 ><button class="button">Fechar</button></a
               >
               {% else %}
-              <a href="{{ url_for('relatorio_presenca', aula_id=aula.id ) }}"
+              <a href="{{ url_for('presenca.relatorio', aula_id=aula.id ) }}"
                 ><button class="button">Relatorio</button></a
               >
               {% endif %}
             </td>
             <td>
               <a
-                href="{{ url_for('deletar_aula', aula_id=aula.id, disciplina_id=disciplina.id ) }}"
+                href="{{ url_for('aula.delete', aula_id=aula.id, disciplina_id=disciplina.id ) }}"
                 onclick="return confirm('Tem certeza de que deseja excluir esta aula?')"
                 ><button class="button">Excluir</button>
               </a>
@@ -114,7 +114,7 @@
       >
       <form
         class="form-group"
-        action="{{ url_for('create_aula_page', disciplina_id = disciplina.id ) }}"
+        action="{{ url_for('aula.create', disciplina_id = disciplina.id ) }}"
         method="post"
       >
         <div class="login__card-campo">
@@ -125,14 +125,6 @@
             id="nome"
             placeholder="Digite o nome da aula"
             name="aula"
-          />
-          <label for="localizacao">Localização</label>
-          <input
-            type="text"
-            class="form-control"
-            id="localizacao"
-            placeholder="Digite a Localização da aula"
-            name="localizacao"
           />
           <input type="hidden" name="latitude" id="latitude">
           <input type="hidden" name="longitude" id="longitude">
@@ -195,9 +187,6 @@
   </div>
 </div>
 
-<script>
-  const apiKey = "{{ api_key }}";
-</script>
 
 <script src="../../static/scripts/autocomplete.js"></script>
 <script>

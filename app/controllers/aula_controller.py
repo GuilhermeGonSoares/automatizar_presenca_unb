@@ -16,7 +16,7 @@ def create(disciplina_id):
     nome_aula = request.form["aula"]
     nova_aula = Aula(nome=nome_aula, aberta=True, disciplina_id=disciplina_id)
 
-    alunos = Disciplina.query.join(User).filter_by(id=disciplina_id).first().alunos
+    alunos = Disciplina.query.filter_by(id=disciplina_id).first().alunos
     for aluno in alunos:
         nova_aula.presencas.append(Presenca(presente=0, user=aluno))
 
@@ -28,7 +28,7 @@ def create(disciplina_id):
 @bp.route("/<int:aula_id>/disciplina/<int:disciplina_id>", methods=["GET"])
 @login_required
 @professor_required
-def deletar_aula(aula_id, disciplina_id):
+def delete(aula_id, disciplina_id):
     print("aula", aula_id)
     aula = Aula.query.get(aula_id)
     if not aula:
