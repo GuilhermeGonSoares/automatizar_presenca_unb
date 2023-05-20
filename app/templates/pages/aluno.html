@@ -3,12 +3,12 @@
 <section class="grid_aluno">
   <section class="container" id="side_bar">
       <h2 class="container__texto">
-        <a href="{{ url_for('aluno_page' ) }}">Meus Cursos</a>
+        <a href="{{ url_for('disciplina.list' ) }}">Meus Cursos</a>
       </h2>
     <ul>
       {% for disciplina in disciplinas %}
       <li class="container__lista_disciplina">
-          <p class="container__texto"><a href="{{ url_for('disciplina_aluno_page', disciplina_id=disciplina.id ) }}">
+          <p class="container__texto"><a href="{{ url_for('disciplina.show', disciplina_id=disciplina.id ) }}">
             {{disciplina.nome}}
           </a></p>
         </div>
@@ -63,7 +63,7 @@
     <h2>Confirmar presença</h2>
     <form
       class="form-group"
-      action="{{url_for('marcar_presenca', disciplina_id=disciplina.id)}}"
+      action="{{url_for('presenca.marcar_presenca', disciplina_id=disciplina.id)}}"
       method="POST"
     >
       <input type="hidden" name="aula_id" value="" />
@@ -87,7 +87,7 @@
     >
     <form
       class="form_disciplina_aluno"
-      action="{{ url_for('cadastrar_disciplina_page' ) }}"
+      action="{{ url_for('disciplina.cadastrar_disciplina' ) }}"
       method="post"
     >
       <div class="login__card-campo">

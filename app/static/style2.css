@@ -1,0 +1,130 @@
+@import url('./navbar.css');
+@import url('./login.css');
+@import url('./flash.css');
+@import url('./table.css');
+@import url('./professor.css');
+@import url('./aluno.css');
+
+:root {
+  --cor-primaria: #f1f6f9;
+  --cor-secundaria: #14274e;
+  --cor-terciaria: #394867;
+  --cor-quaternaria: #ecf2ff;
+  --cor-clara: #ffffff;
+  --cor-escura: #000000;
+}
+
+body {
+  background-color: var(--cor-primaria);
+}
+
+.button {
+  background-color: var(--cor-secundaria);
+  color: var(--cor-clara);
+  padding: 0.5em 1em;
+  width: 8em;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.5s ease-in-out;
+}
+
+.button:hover {
+  background-color: var(--cor-terciaria);
+  color: var(--cor-clara);
+}
+
+.container {
+  background-color: var(--cor-quaternaria);
+  box-sizing: border-box;
+  border-radius: 2em;
+  padding: 2em;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+}
+
+.aula {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5em;
+  border-bottom: solid 2px var(--cor-secundaria);
+  overflow-y: auto;
+}
+
+.flex {
+  display: flex;
+  flex-direction: column;
+}
+
+.container__titulo {
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.container__texto {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 1em;
+}
+
+.container__imagem {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.container__lista_disciplina {
+  display: flex;
+  justify-content: space-between;
+}
+
+.presenca {
+  margin-top: 1em;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+}
+
+.form_disciplina_aluno {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.form-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}

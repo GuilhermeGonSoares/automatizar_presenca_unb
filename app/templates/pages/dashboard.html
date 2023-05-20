@@ -1,0 +1,182 @@
+{% extends 'base.html' %} {% block content %}
+
+<section class="student-details">
+  <div class="flex-group section-nav">
+    <h2 class="section-title">Detalhes do Aluno</h2>
+    <div class="student-deatils--btns">
+      <select class="btn subject-btn" onchange="location = this.value;">
+        <option value="{{ url_for('disciplina.list') }}" selected >Selecione uma disciplina</option>
+        {% for disc in disciplinas %}
+        <option value="{{ url_for('disciplina.show', disciplina_id=disc.id) }}"
+        {% if disciplina %}
+          {% if disc.id == disciplina.id %}selected{% endif %}
+        {% endif %} 
+        >
+          {{ disc.nome }}
+        </option>
+        {% endfor %}
+      </select>
+      <button onclick="" class="btn log-subject-btn">
+        Cadastrar Disciplina
+      </button>
+    </div>
+  </div>
+  <div class="student-profile">
+    <div class="flex-group align-start">
+      <img
+        class="student-profile--picture"
+        src="../static/img/profile-picture-lg.svg"
+        alt=""
+      />
+      <div class="student-profile--info">
+        <span class="student-profile--name">{{current_user.nome}}</span>
+        {% if disciplina %}
+        <div class="student-profile--subject">
+          <span class="student-profie--subject--label">Disciplina</span>
+          <span class="student-profie--subject--name">{{disciplina.nome}}</span>
+        </div>
+        {% else %}
+        <span class="student-profile--name">{{current_user.email}}</span>
+        <span class="student-profile--name">{{current_user.matricula}}</span>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% if disciplina %}
+  <div class="student-options grid-flow">
+    <div class="option-box attendances">
+      <div class="flex-group">
+        <div class="option-icon">
+          <img src="../static/img/arrow_right_icon.svg" alt="" />
+        </div>
+        <div>
+          <p class="option-data">{{dados.total_aulas}}</p>
+          <p class="option-label">Aulas Totais</p>
+        </div>
+      </div>
+    </div>
+    <div class="option-box arrivals">
+      <div class="flex-group">
+        <div class="option-icon">
+          <img src="../static/img/arrow_diagonal_icon.svg" alt="" />
+        </div>
+        <div>
+          <p class="option-data">{{dados.total_presencas}}</p>
+          <p class="option-label">Presenças Totais</p>
+        </div>
+      </div>
+    </div>
+    <div class="option-box absences">
+      <div class="flex-group gap">
+        <div class="option-icon">
+          <img src="../static/img/closing_icon.svg" alt="" />
+        </div>
+        <div>
+          <p class="option-data">{{dados.total_faltas}}</p>
+          <p class="option-label">Faltas Totais</p>
+        </div>
+      </div>
+    </div>
+    <div class="option-box attendance-rate">
+      <div class="flex-group">
+        <div class="option-icon">
+          <img src="../static/img/check_icon.svg" alt="" />
+        </div>
+        <div>
+          <p class="option-data">{{dados.aproveitamento}}%</p>
+          <p class="option-label">Aproveitamento</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</section>
+
+<section class="attendance-record">
+  <h2 class="section-title">Histórico de presenças</h2>
+  <div class="attendances-grid">
+    {% for presenca in presencas %}
+    <div class="attendance-record--card">
+      <div class="flex-group space-between">
+        <div class="flex-group">
+          <img src="../static/img/clock_icon.svg" alt="" />
+          {% set meses = ['', 'janeiro', 'fevereiro', 'março', 'abril', 'maio',
+          'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro',
+          'dezembro'] %} {% set dia = presenca.data.strftime('%d') %} {% set mes
+          = presenca.data.strftime('%m')|int %} {% set ano =
+          presenca.data.strftime('%Y') %}
+
+          <span class="attendance-card-date"
+            >{{ dia }} de {{ meses[mes].capitalize() }} {{ ano }}</span
+          >
+        </div>
+        
+        {% if presenca.presente %}
+        <span class="present">Presente</span>
+        {% else %}
+        <span class="abscent">Falta</span>
+        {% endif %}
+      </div>
+
+      <div class="flex-group space-between">
+        <span class="attendance-card-date">{{presenca.aula.disciplina.nome}}</span>
+        <span class="attendance-card-date">{{presenca.aula.nome}}</span>
+      </div>
+
+      <div class="auxiliar-in-out">
+        <div class="flex-group space-between">
+          <h3>Início</h3>
+          <h3>Presença</h3>
+        </div>
+        <div class="flex-group space-between">
+          <span class="arrival-time">
+            {{ presenca.data.strftime('%H:%M') }}
+          </span>
+          <span class="exit-time"
+            >{{presenca.aula.data.strftime('%H:%M')}}</span
+          >
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+<div class="modal-background hidden">
+  <div class="modal">
+    <div class="option-icon form-top-icon">
+      <img src="../static/img/form-top-icon.svg" alt="" />
+    </div>
+    <h1 class="modal-title">Cadastre-se na Disciplina</h1>
+    <button class="close-btn">
+      <img src="../static/img/close-icon.svg" alt="" class="close-icon" />
+    </button>
+    <p class="modal-desc">
+      Certifique-se que o código da disciplina <br />
+      e sua matrícula estão corretas
+    </p>
+    <form action="#">
+      <div class="form-group">
+        <label for="class-id">Codigo da Disciplina</label>
+        <input
+          type="text"
+          name="class-id"
+          id="class-id"
+          placeholder="Ex: 123456"
+          class="form-input"
+        />
+      </div>
+      <div class="form-group">
+        <label for="matricula">Sua Matricula</label>
+        <input
+          type="text"
+          name="matricula"
+          id="matricula"
+          placeholder="Ex: 202064639"
+          class="form-input"
+        />
+      </div>
+      <button class="btn submit-btn">Cadastrar Disciplina</button>
+    </form>
+  </div>
+</div>
+{% endblock%}

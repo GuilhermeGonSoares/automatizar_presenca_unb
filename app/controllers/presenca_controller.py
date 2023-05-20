@@ -4,7 +4,7 @@ from ..models import Disciplina, Presenca, Aula
 from sqlalchemy import desc
 from ..utils.professor_required_decorator import professor_required
 from app.webapp import db
-import datetime
+from datetime import datetime
 
 from io import BytesIO
 from reportlab.lib import colors

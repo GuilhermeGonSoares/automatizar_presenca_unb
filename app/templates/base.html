@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attendance</title>
+    <link rel="stylesheet" />
+    <link rel="stylesheet" href="../static/style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+  </head>
+  <body>
+    <aside class="side-bar">
+      <a href="assets-biel/home.html" class="flex-group logo">
+        <img src="../static/img/Logo.svg" alt="Company Logo" />
+        <h1>Attendance<span class="io">.io</span></h1>
+      </a>
+      <h2>Services</h2>
+      <ul class="side-bar--options">
+        <li class="option active">
+          <i></i>
+          <div class="flex-group">
+            <a href="{{ url_for('disciplina.list' ) }}">
+              <img
+                class="active-icon"
+                src="../static/img/home-icon.svg"
+                alt=""
+              />
+              Dashboard</a
+            >
+          </div>
+        </li>
+        <li class="option">
+          <a href="assets-biel/materias.html">
+            <img src="../static/img/subject-icon.png" alt="" />
+            Materias</a
+          >
+        </li>
+        <li class="option">
+          <a href="#">
+            <img src="../static/img/extras-icon.svg" alt="" />
+            Extras</a
+          >
+        </li>
+        <li class="option">
+          <div class="flex-group space-between">
+            <a href="#">
+              <img src="../static/img/notis-icon.svg" alt="" />Notificacoes</a
+            >
+            <span class="notis-tag">5</span>
+          </div>
+        </li>
+      </ul>
+      <div class="addon">
+        <div class="flex-group">
+          <h3 class="addon--title">Quer faltar mais dias?</h3>
+          <span class="addon--tag">PRO</span>
+        </div>
+        <p class="addon--text">
+          Experimente 1 mês gratuito e nunca mais tome mais nenhuma falta!
+        </p>
+        <a
+          href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"
+          class="addon--btn"
+          style="text-align: center"
+          >Upgrade to Pro</a
+        >
+      </div>
+    </aside>
+
+    <main>
+      <nav class="flex-group main--nav-bar">
+        <!-- <label for="search"></label> -->
+        <input
+          type="text"
+          id="search"
+          placeholder="🔍 Service Oriented ..."
+          class="search-input"
+        />
+        <div class="side-user-profile">
+          <div class="flex-group">
+            <img src="../static/img/profile-picture.svg" alt="User Picture" />
+            <div class="user-data">
+              <p class="user-name">{{current_user.nome}}</p>
+              <p class="user-email">{{current_user.email}}</p>
+            </div>
+            <button class="side-profile--dropdown">
+              <img src="../static/img/arrow-down-lg-icon.svg" alt="" />
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %} {% endif %} {% endwith %} {% block content %}{% endblock %}
+    </main>
+
+    <script src="../static/scripts/script.js"></script>
+  </body>
+</html>

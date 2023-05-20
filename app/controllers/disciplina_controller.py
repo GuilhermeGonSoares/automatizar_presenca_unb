@@ -4,6 +4,7 @@ from ..models import Disciplina, Presenca, Aula
 from sqlalchemy import desc
 from ..utils.professor_required_decorator import professor_required
 from app.webapp import db
+from ..services.presenca_service import dados_disciplina
 
 bp_name = "disciplina"
 bp = Blueprint(bp_name, __name__)
@@ -24,10 +25,16 @@ def list():
         )
 
     disciplinas_matriculadas = current_user.disciplinas_matriculadas
-    presencas = current_user.presenca_todas_aulas.order_by(desc(Presenca.data)).limit(6)
+    presencas = (
+        Presenca.query.filter_by(user_matricula=current_user.matricula)
+        .order_by(desc(Presenca.data))
+        .limit(6)
+        .all()
+    )
+
     return render_template(
-        "pages/aluno-disciplina.html",
-        disciplinas_matriculadas=disciplinas_matriculadas,
+        "pages/dashboard.html",
+        disciplinas=disciplinas_matriculadas,
         presencas=presencas,
     )
 
@@ -51,21 +58,23 @@ def show(disciplina_id):
         )
 
     disciplinas_matriculadas = current_user.disciplinas_matriculadas
-    disciplina = list(
-        filter(lambda d: d.id == disciplina_id, disciplinas_matriculadas)
-    )[0]
+    disciplina = next(filter(lambda d: d.id == disciplina_id, disciplinas_matriculadas))
+
     presencas = (
-        Presenca.query.join(Aula)
-        .filter(Aula.disciplina_id == disciplina_id)
-        .filter_by(user=current_user)
+        Presenca.query.filter_by(user_matricula=current_user.matricula)
+        .order_by(desc(Presenca.data))
+        .limit(6)
         .all()
     )
 
+    dados = dados_disciplina(current_user, disciplina_id)
+    print(dados)
     return render_template(
-        "pages/aluno.html",
+        "pages/dashboard.html",
         disciplina=disciplina,
         disciplinas=disciplinas_matriculadas,
         presencas=presencas,
+        dados=dados,
     )
 
 
