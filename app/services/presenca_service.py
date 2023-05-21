@@ -16,8 +16,9 @@ def dados_disciplina(user, disciplina_id):
     )
 
     total_faltas = total_aulas - total_presencas
-
-    aproveitamento = ceil((total_presencas * 100) / total_aulas)
+    aproveitamento = 0
+    if total_aulas > 0:
+        aproveitamento = ceil((total_presencas * 100) / total_aulas)
 
     return {
         "total_aulas": total_aulas,
