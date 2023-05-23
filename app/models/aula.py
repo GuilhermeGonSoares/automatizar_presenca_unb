@@ -6,7 +6,7 @@ from sqlalchemy.orm import relationship
 
 import random
 import string
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class Aula(db.Model):
@@ -24,7 +24,7 @@ class Aula(db.Model):
     disciplina = db.relationship("Disciplina", back_populates="aulas")
 
     def __repr__(self):
-        return f"Aula {self.nome}"
+        return f"{self.nome}"
 
     @staticmethod
     def generate_code():
@@ -35,6 +35,23 @@ class Aula(db.Model):
     def on_before_insert(mapper, connection, target):
         target.codigo = Aula.generate_code()
         target.data = datetime.now()
+
+
+def fechar_aulas():
+    from app.webapp import app
+
+    with app.app_context():
+        print("**************")
+        print(f"Fechar AULA {datetime.now().hour}:{datetime.now().minute}")
+        print("**************")
+        aulas = Aula.query.filter_by(aberta=True).all()
+        for aula in aulas:
+            tempo_decorrido = datetime.now() - aula.data
+            if tempo_decorrido > timedelta(minutes=30):
+                print("Fechando a aula ---->", aula)
+                aula.aberta = False
+                aula.data_fechamento = datetime.now()
+                db.session.commit()
 
 
 class LocalizacaoAula(db.Model):

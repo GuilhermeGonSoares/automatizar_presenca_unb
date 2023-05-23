@@ -1,0 +1,168 @@
+{% extends "base.html" %} {% block content %}
+<section class="student-details">
+  <h2 class="section-title">Matérias de Hoje</h2>
+  <div class="flex-group classes-slider">
+    {% for materia in disciplina_do_dia %}
+    <button class="check-box" 
+      {% if disciplina_do_dia[materia] and disciplina_do_dia[materia][0].aberta %} 
+        onclick="openModal('{{materia}}', '{{materia.id}}', '{{disciplina_do_dia[materia][0]}}','{{disciplina_do_dia[materia][0].id}}')" 
+      {% endif %}
+    >
+      
+      <div class="flex-group">
+        {% if not disciplina_do_dia[materia] %}
+        <div class="option-icon neutral">
+          <img src="../../static/img/wait-icon.svg" alt="" />
+        </div>
+        <div>
+          <p class="option-data">Pendente</p>
+          <p class="option-label">{{materia}}</p>
+        </div>
+
+        {% else %} {% if disciplina_do_dia[materia][1] %}
+        <div class="option-icon success">
+          <img src="../../static/img/checked-icon.svg" alt="" />
+        </div>
+        <div>
+          <p class="option-data">Presente</p>
+          <p class="option-label">{{materia}}</p>
+        </div>
+
+        {% elif disciplina_do_dia[materia][0].aberta %}
+          <div class="option-icon" style="background-color: #b6dbff;">
+            <img src="../../static/img/wait-icon.svg" alt="" />
+          </div>
+          <div>
+            <p class="option-data">Aberta</p>
+            <p class="option-label">{{materia}}</p>
+          </div>
+        {% else %}
+        <div class="option-icon danger">
+          <img src="../../static/img/unchecked-icon.svg" alt="" />
+        </div>
+        <div>
+          <p class="option-data">Ausente</p>
+          <p class="option-label">{{materia}}</p>
+        </div>
+        {% endif %} {% endif %}
+      </div>
+      <p class="attendance-state">
+        <span class="current-time"
+          >{{ materia.hora_inicio.strftime('%H:%M') }}</span
+        >
+      </p>
+    </button>
+    {% endfor %}
+  </div>
+</section>
+<section class="attendance-record">
+  <div class="flex-group section-nav">
+    <h2 class="section-title">Histórico da Disciplina</h2>
+    <div class="student-deatils--btns">
+      <select class="btn subject-btn" onchange="location = this.value;">
+        <option value="{{ url_for('disciplina.list') }}" selected disabled>Selecione a disciplina</option>
+        {% for disc in disciplinas %}
+        <option value="{{ url_for('historico.show', disciplina_id=disc.id) }}"
+        {% if disciplina_id %}
+          {% if disc.id == disciplina_id %}selected{% endif %}
+        {% endif %} 
+        >
+          {{ disc.nome }}
+        </option>
+        {% endfor %}
+      </select>
+      </button>
+      <button onclick="" class="btn log-subject-btn">
+        <div class="flex-group">
+          <img src="../../static/img/download-icon.svg" alt="" />
+          Download CSV
+        </div>
+      </button>
+    </div>
+  </div>
+  <div class="record-table">
+    <table className="content-table">
+      <thead>
+        <tr>
+          <th class="th-classes">
+            <div class="flex-group">
+              <img src="../../static/img/classes-icon.svg" alt="" />Aulas
+            </div>
+          </th>
+          <th class="th-status">
+            <div class="flex-group">
+              <img src="../../static/img/status-icon.svg" alt="" />Status
+            </div>
+          </th>
+          <th class="th-date">
+            <div class="flex-group">
+              <img src="../../static/img/date-icon.svg" alt="" />Data
+            </div>
+          </th>
+          <th class="th-content">
+            <div class="flex-group">
+              <img src="../../static/img/content-icon.svg" alt="" />Conteúdo
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for presenca in historico_presencas %}
+        <tr>
+          <td>{{presenca.aula.nome}}</td>
+          <td> {% if presenca.presente %}
+            <span class="present">• Presente </span>
+          {% elif presenca.aula.aberta %}
+          <span class="opened">• Aberta </span>
+          {% else %}
+          <span class="abscent">• Ausente </span>
+          {% endif %}</td>
+          <td>{{presenca.aula.data.strftime('%d/%m/%Y')}}</td>
+          <td>
+            <div class="flex-group space-between">
+              <a class="content-link" href="">Slide Modelo MVC</a>
+              <button class="download-btn">
+                <div class="flex-group">
+                  <img
+                    src="../../static/img/donwload-icon.svg"
+                    alt=""
+                  />Download
+                </div>
+              </button>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+<div class="modal-background hidden">
+  <div class="modal">
+    <div class="option-icon form-top-icon">
+      <img src="../static/img/form-top-icon.svg" alt="" />
+    </div>
+    <h1 class="modal-title">Cadastre-se na Aula</h1>
+    <button class="close-btn">
+      <img src="../static/img/close-icon.svg" alt="" class="close-icon" />
+    </button>
+    <p class="modal-desc">
+      Certifique-se que o código da  <br />
+      aula está correta
+    </p>
+    <form action="{{ url_for('presenca.marcar_presenca' ) }}" method="post">
+      <div class="form-group">
+        <label for="class-id">Codigo da aula</label>
+        <input
+          type="text"
+          name="codigo"
+          id="class-id"
+          placeholder="Ex: 123456"
+          class="form-input"
+        />
+      </div>
+      <button class="btn submit-btn">Cadastrar Disciplina</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

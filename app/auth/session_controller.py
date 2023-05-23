@@ -40,17 +40,24 @@ def register():
     if request.method == "POST":
         if form.validate_on_submit():
             matricula = form.matricula.data
-            matricula_professor = MatriculaProfessor.query.filter_by(
-                matricula=matricula
-            ).first()
+            funcao = form.funcao.data
             user = User(
                 matricula=matricula,
                 email=form.email.data,
                 nome=form.nome.data,
                 senha=form.senha.data,
+                eh_professor=False,
             )
 
-            user.eh_professor = True if matricula_professor else False
+            if funcao == "professor":
+                matricula_professor = MatriculaProfessor.query.filter_by(
+                    matricula=matricula
+                ).first()
+                if not matricula_professor:
+                    flash("Matrícula de professor inválida.", category="danger")
+                    return render_template("pages/register.html", form=form)
+                else:
+                    user.eh_professor = True
 
             db.session.add(user)
             db.session.commit()
@@ -60,7 +67,7 @@ def register():
         if form.errors != {}:
             for err_msg in form.errors.values():
                 flash(
-                    f"There was an error with creating a user: {err_msg}",
+                    f"{err_msg[0]}",
                     category="danger",
                 )
     return render_template("pages/register.html", form=form)

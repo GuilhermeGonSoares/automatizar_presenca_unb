@@ -20,6 +20,9 @@ class Disciplina(db.Model):
         db.String, db.ForeignKey("user.matricula"), nullable=True
     )
     codigo = db.Column(db.String, nullable=True, unique=True)
+    quantidade_total_aulas = db.Column(db.Integer, default=0)
+    hora_inicio = db.Column(db.Time, nullable=False)
+    hora_fim = db.Column(db.Time, nullable=False)
 
     professor = db.relationship(
         "User", backref="disciplinas_ministradas", foreign_keys=[professor_matricula]
@@ -28,6 +31,13 @@ class Disciplina(db.Model):
         "User", secondary=alunos_disciplinas, backref="disciplinas_matriculadas"
     )
     aulas = db.relationship("Aula", cascade="all, delete-orphan")
+
+    horarios = db.relationship(
+        "Horario", backref="disciplina", cascade="all, delete-orphan"
+    )
+
+    def __repr__(self):
+        return f"{self.nome}"
 
     @staticmethod
     def generate_code():
@@ -49,8 +59,6 @@ class Horario(db.Model):
         db.Integer, db.ForeignKey("disciplina.id"), nullable=False
     )
     dia_semana = db.Column(db.String(20), nullable=False)
-    hora_inicio = db.Column(db.Time, nullable=False)
-    hora_fim = db.Column(db.Time, nullable=False)
 
     @validates("dia_semana")
     def validate_dia_semana(self, key, value):

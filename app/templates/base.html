@@ -17,12 +17,12 @@
       </a>
       <h2>Services</h2>
       <ul class="side-bar--options">
-        <li class="option active">
+        <li class="option {{dashboard}}">
           <i></i>
           <div class="flex-group">
             <a href="{{ url_for('disciplina.list' ) }}">
               <img
-                class="active-icon"
+                class="{{dashboard}}-icon"
                 src="../static/img/home-icon.svg"
                 alt=""
               />
@@ -30,9 +30,13 @@
             >
           </div>
         </li>
-        <li class="option">
-          <a href="assets-biel/materias.html">
-            <img src="../static/img/subject-icon.png" alt="" />
+        <li class="option {{materias}}">
+          <a href="{{ url_for('historico.show' ) }}">
+            <img
+              class="{{materias}}-icon"
+              src="../static/img/subject-icon.png"
+              alt=""
+            />
             Materias</a
           >
         </li>
@@ -79,7 +83,11 @@
         />
         <div class="side-user-profile">
           <div class="flex-group">
-            <img src="../static/img/profile-picture.svg" alt="User Picture" />
+            <img
+              class="student-profile--picture"
+              src="../static/img/default-profile.jpg"
+              alt="User Picture"
+            />
             <div class="user-data">
               <p class="user-name">{{current_user.nome}}</p>
               <p class="user-email">{{current_user.email}}</p>

@@ -1,9 +1,11 @@
-from flask import Blueprint, request, redirect, flash, url_for
+from flask import Blueprint, request, redirect, flash, url_for, render_template
 from flask_login import login_required
 from ..models import Disciplina, Presenca, Aula, User
 from sqlalchemy import desc
 from ..utils.professor_required_decorator import professor_required
-from app.webapp import db
+from app.webapp import db, mail
+from ..services.email_service import send_email
+from ..services.presenca_service import reprovar_por_falta
 
 bp_name = "aula"
 bp = Blueprint(bp_name, __name__)
@@ -18,6 +20,12 @@ def create(disciplina_id):
 
     alunos = Disciplina.query.filter_by(id=disciplina_id).first().alunos
     for aluno in alunos:
+        (total_aula, faltas, faltas_permitidas) = reprovar_por_falta(
+            disciplina_id, aluno
+        )
+        if faltas >= faltas_permitidas:
+            send_email(aluno.email, total_aula, faltas, faltas_permitidas)
+
         nova_aula.presencas.append(Presenca(presente=0, user=aluno))
 
     db.session.add(nova_aula)

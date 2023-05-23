@@ -1,35 +1,109 @@
-{% extends 'base_template.html' %} {% block content %}
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../../static/auth.css" />
+  </head>
+  <body>
+    <main class="container" style="height: 50rem; margin-top: 3rem">
+      <div class="grid-flow">
+        <div class="left-col">
+          <div class="vertical-flex-group">
+            <span class="title">ATTENDANCE.IO</span>
+            <div class="hero-message">
+              <h1>Nunca mais faça chamada de novo!</h1>
+              <p>
+                Uma nova forma de fazer chamada e ter controle sobre a presença
+                de seus alunos.
+              </p>
+            </div>
+            <div class="testimonial">
+              <h3 class="testimonial--author">Siqueira, Gabriel</h3>
+              <p>
+                “A melhor aplicação pra controle de chamadas que já vi. Todo o
+                processo foi automatizado e não se tornou mais uma preocupação
+                pra mim!”
+                <img class="quotes" src="../../static/img/quotes.svg" alt="" />
+              </p>
+            </div>
+          </div>
+        </div>
 
-<section class="login">
-  <form
-    action="{{ url_for('auth.session.register' ) }}"
-    method="post"
-    class="login__card"
-  >
-    <h1 class="login__card-titulo">UnB - REGISTRO</h1>
-    {{ form.hidden_tag() }}
-    <div class="login__card-campo">
-      <div>{{form.matricula.label()}}</div>
-      {{form.matricula(placeholder='Digite sua matricula')}}
-    </div>
-    <div class="login__card-campo">
-      {{form.email.label()}} {{form.email(placeholder='Digite seu email')}}
-    </div>
-    <div class="login__card-campo">
-      {{form.nome.label()}} {{form.nome(placeholder='Digite seu nome')}}
-    </div>
-    <div class="login__card-campo">
-      {{form.senha.label()}} {{form.senha(placeholder='Digite sua senha')}}
-    </div>
-    {{form.submit(class='button')}}
+        <div class="right-col">
+          <div class="login-form">
+            <form
+              action="{{ url_for('auth.session.register' ) }}"
+              method="post"
+            >
+              {{ form.hidden_tag() }}
 
-    <div>
-      <span class="card__texto">Já possui uma conta?</span>
-      <a class="card__link" href="{{ url_for('auth.session.login' ) }}"
-        >Login</a
-      >
-    </div>
-  </form>
-</section>
+              <h2 class="form-title">Seja bem vindo!</h2>
+              <p class="form-subtitle">
+                Cadastre-se agora e tenha acesso a todas as funcionalidades da
+                plataforma
+              </p>
+              <div class="social-btns-grid">
+                <button class="social-btn">
+                  <img src="../../static/img/apple-logo.svg" alt="" />
+                </button>
+                <button class="social-btn">
+                  <img src="../../static/img/google-logo.svg" alt="" />
+                </button>
+                <button class="social-btn">
+                  <img src="../../static/img/twitter-logo.svg" alt="" />
+                </button>
+              </div>
 
-{% endblock %}
+              {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %} {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">{{ message }}</div>
+              {% endfor %} {% endif %} {% endwith %} {% block content %}{%
+              endblock %}
+
+              <h3 class="input-title">Você é?</h3>
+              <div class="radio-btns">
+                {% for subfield in form.funcao %}
+                <label class="radio-label">
+                  {{ subfield() }}
+                  <span class="radio-custom"></span>
+                  {{ subfield.label.text }}
+                </label>
+                {% endfor %}
+              </div>
+
+              <h3 class="input-title">{{ form.matricula.label.text }}</h3>
+              <label for="{{ form.matricula.id }}">
+                {{form.matricula(class_="my-input-class") }}
+              </label>
+
+              <h3 class="input-title">{{ form.nome.label.text }}</h3>
+              <label for="{{ form.nome.id }}">
+                {{form.nome(class_="my-input-class") }}
+              </label>
+
+              <h3 class="input-title">{{ form.email.label.text }}</h3>
+              <label for="{{ form.email.id }}">
+                {{form.email(class_="my-input-class") }}
+              </label>
+
+              <h3 class="input-title">{{ form.senha.label.text }}</h3>
+              <label for="{{ form.senha.id }}">
+                {{ form.senha(type="password", class_="my-input-class") }}
+              </label>
+              {{form.submit(class='login-btn')}}
+              <span class="register-link"
+                >Já tem uma conta?
+                <a href="{{ url_for('auth.session.login' ) }}"
+                  >Faça login</a
+                ></span
+              >
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

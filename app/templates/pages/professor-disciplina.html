@@ -105,7 +105,7 @@
       >&times;</span
     >
     <form
-      class="form-group"
+      class="form-group organizar"
       action="{{ url_for('disciplina.create' ) }}"
       method="post"
     >
@@ -119,6 +119,54 @@
           name="disciplina"
         />
       </div>
+
+      <div class="modal__disciplina-campo">
+        <label for="quantidade_total_aulas">Quantidade Total de Aulas</label>
+        <input type="number" id="quantidade_total_aulas" name="quantidade_total_aulas" />
+      </div>
+
+      <div class="modal__disciplina-campo">
+        <label for="hora_inicio">Horário de Início</label>
+        <input type="time" id="hora_inicio" name="hora_inicio" />
+      </div>
+      
+      <div class="modal__disciplina-campo">
+        <label for="hora_fim">Horário de Término</label>
+        <input type="time" id="hora_fim" name="hora_fim" />
+      </div>
+
+      <fieldset class="login__card-campo">
+        <legend>Dias da Semana</legend>
+        <div>
+          <input type="checkbox" id="segunda" name="dias_semana[]" value="Segunda-feira">
+          <label for="segunda">Segunda-feira</label><br>
+        </div>
+        <div>
+          <input type="checkbox" id="terca" name="dias_semana[]" value="Terça-feira">
+          <label for="terca">Terça-feira</label><br>
+        </div>
+        <div>
+          <input type="checkbox" id="quarta" name="dias_semana[]" value="Quarta-feira">
+          <label for="quarta">Quarta-feira</label><br>
+        </div>
+        <div>
+          <input type="checkbox" id="quinta" name="dias_semana[]" value="Quinta-feira">
+          <label for="quinta">Quinta-feira</label><br>
+        </div>
+        <div>
+          <input type="checkbox" id="sexta" name="dias_semana[]" value="Sexta-feira">
+          <label for="sexta">Sexta-feira</label><br>
+        </div>
+        <div>
+          <input type="checkbox" id="sabado" name="dias_semana[]" value="Sábado">
+          <label for="sabado">Sábado</label><br>
+        </div>
+        <div>
+          <input type="checkbox" id="domingo" name="dias_semana[]" value="Domingo">
+          <label for="domingo">Domingo</label>
+        </div>
+      </fieldset>
+
       <button type="submit" class="button">Salvar</button>
       <button
         type="button"

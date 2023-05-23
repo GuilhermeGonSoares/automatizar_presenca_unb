@@ -18,9 +18,10 @@ bp_name = "presenca"
 bp = Blueprint(bp_name, __name__)
 
 
-@bp.route("/<int:disciplina_id>", methods=["POST"])
+@bp.route("/", methods=["POST"])
 @login_required
-def marcar_presenca(disciplina_id):
+def marcar_presenca():
+    disciplina_id = request.form["disciplina_id"]
     aula_id = request.form["aula_id"]
     codigo = request.form["codigo"]
     data = datetime.now()  # Data atual na hora de marcar presenca
@@ -32,21 +33,21 @@ def marcar_presenca(disciplina_id):
 
     if aula.codigo != codigo:
         flash("Código incorreto, tente novamente.", "danger")
-        return redirect(url_for("disciplina.show", disciplina_id=disciplina_id))
+        return redirect(url_for("historico.show", disciplina_id=disciplina_id))
 
     if intervalo_inicio_chamada_marcar_presenca > 20:
         flash(
             f"Já passou o tempo de 20 minutos para marcar presença. Tempo atual: {intervalo_inicio_chamada_marcar_presenca} minutos",
             "danger",
         )
-        return redirect(url_for("disciplina.show", disciplina_id=disciplina_id))
+        return redirect(url_for("historico.show", disciplina_id=disciplina_id))
 
     presenca = Presenca.query.filter_by(user=current_user, aula=aula).first()
     presenca.presente = True
 
     db.session.commit()
     flash("Presença confirmada com sucesso!", "success")
-    return redirect(url_for("disciplina.show", disciplina_id=disciplina_id))
+    return redirect(url_for("historico.show", disciplina_id=disciplina_id))
 
 
 @bp.route("/aula/<int:aula_id>/disciplina/<int:disciplina_id>", methods=["GET"])

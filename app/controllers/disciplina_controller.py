@@ -1,10 +1,11 @@
 from flask import Blueprint, render_template, request, redirect, flash, url_for
 from flask_login import login_user, login_required, logout_user, current_user
-from ..models import Disciplina, Presenca, Aula
+from ..models import Disciplina, Presenca, Aula, Horario
 from sqlalchemy import desc
 from ..utils.professor_required_decorator import professor_required
 from app.webapp import db
 from ..services.presenca_service import dados_disciplina
+from datetime import datetime
 
 bp_name = "disciplina"
 bp = Blueprint(bp_name, __name__)
@@ -36,6 +37,7 @@ def list():
         "pages/dashboard.html",
         disciplinas=disciplinas_matriculadas,
         presencas=presencas,
+        dashboard="active",
     )
 
 
@@ -75,6 +77,7 @@ def show(disciplina_id):
         disciplinas=disciplinas_matriculadas,
         presencas=presencas,
         dados=dados,
+        dashboard="active",
     )
 
 
@@ -87,7 +90,22 @@ def create():
     """
     user = current_user
     nome_disciplina = request.form["disciplina"]
-    nova_disciplina = Disciplina(nome=nome_disciplina, professor=user)
+    dias_semana = request.form.getlist("dias_semana[]")
+    quantidade_total_aulas = request.form["quantidade_total_aulas"]
+
+    hora_inicio = datetime.strptime(request.form["hora_inicio"], "%H:%M").time()
+    hora_fim = datetime.strptime(request.form["hora_fim"], "%H:%M").time()
+
+    nova_disciplina = Disciplina(
+        nome=nome_disciplina,
+        professor=user,
+        hora_inicio=hora_inicio,
+        hora_fim=hora_fim,
+        quantidade_total_aulas=quantidade_total_aulas,
+    )
+    for dia in dias_semana:
+        horario = Horario(dia_semana=dia)
+        nova_disciplina.horarios.append(horario)
 
     db.session.add(nova_disciplina)
     db.session.commit()

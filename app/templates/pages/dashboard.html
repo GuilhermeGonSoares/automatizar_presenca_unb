@@ -24,8 +24,8 @@
   <div class="student-profile">
     <div class="flex-group align-start">
       <img
-        class="student-profile--picture"
-        src="../static/img/profile-picture-lg.svg"
+        class="student-profile--picture-lg"
+        src="../static/img/default-profile.jpg"
         alt=""
       />
       <div class="student-profile--info">
@@ -118,23 +118,14 @@
         {% endif %}
       </div>
 
-      <div class="flex-group space-between">
-        <span class="attendance-card-date">{{presenca.aula.disciplina.nome}}</span>
-        <span class="attendance-card-date">{{presenca.aula.nome}}</span>
-      </div>
-
       <div class="auxiliar-in-out">
         <div class="flex-group space-between">
-          <h3>Início</h3>
-          <h3>Presença</h3>
+          <h3>Matéria</h3>
+          <h3>Aula</h3>
         </div>
         <div class="flex-group space-between">
-          <span class="arrival-time">
-            {{ presenca.data.strftime('%H:%M') }}
-          </span>
-          <span class="exit-time"
-            >{{presenca.aula.data.strftime('%H:%M')}}</span
-          >
+          <span class="arrival-time">{{presenca.aula.disciplina}}</span>
+          <span class="exit-time">{{presenca.aula.nome}}</span>
         </div>
       </div>
     </div>

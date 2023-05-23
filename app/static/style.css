@@ -13,14 +13,14 @@
   --clr-secondary-400: #e9ecef;
 
   --clr-accent-400: #3574dc;
-  --clr-accent-300: #b6dbff;
+  --clr-accent-300: #cae4ff;
   --clr-accent-200: #e8f2fa;
 
   --clr-success: #42e384;
-  --clr-success-light: #e0fde6;
+  --clr-success-light: #d3ffdb;
 
   --clr-error: #ff5953;
-  --clr-error-light: #ffe8eb;
+  --clr-error-light: #ffdee2;
 
   --clr-stroke: #dddddd;
 
@@ -267,7 +267,7 @@ li.option {
   box-sizing: border-box;
   outline: none;
   border: 1px solid var(--clr-accent-400);
-  box-shadow: 0 0 0 2px var(--clr-accent-300);
+  /* box-shadow: 0 0 0 3px var(--clr-accent-300); */
 }
 
 .side-user-profile {
@@ -376,6 +376,16 @@ h2 {
 
   display: grid;
   gap: 0.375;
+}
+.student-profile--picture {
+  border-radius: 50%; /* Torna a imagem circular */
+  width: 50px; /* Define a largura da imagem */
+  height: 50px; /* Define a altura da imagem */
+}
+.student-profile--picture-lg {
+  border-radius: 50%; /* Torna a imagem circular */
+  width: 110px; /* Define a largura da imagem */
+  height: 110px; /* Define a altura da imagem */
 }
 
 .student-profie--subject--label {
@@ -727,7 +737,7 @@ td:last-child {
   background-color: var(--clr-success-light);
   border-radius: 1rem;
 
-  padding: 0.325rem;
+  padding: 0.395rem;
 }
 
 .opened {
@@ -738,7 +748,7 @@ td:last-child {
   background-color: var(--clr-accent-300);
   border-radius: 1rem;
 
-  padding: 0.325rem;
+  padding: 0.395rem;
 }
 
 .closed {
@@ -749,7 +759,7 @@ td:last-child {
   background-color: var(--clr-secondary-400);
   border-radius: 1rem;
 
-  padding: 0.325rem;
+  padding: 0.395rem;
 }
 
 .download-btn {

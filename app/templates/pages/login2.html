@@ -1,0 +1,29 @@
+{% extends 'base_template.html' %} {% block content %}
+
+<section class="login">
+  <form
+    action="{{ url_for('auth.session.login' ) }}"
+    method="post"
+    class="login__card"
+  >
+    <h1 class="login__card-titulo">UnB - LOGIN</h1>
+    {{ form.hidden_tag() }}
+    <div class="login__card-campo">
+      <div>{{form.matricula.label()}}</div>
+      {{form.matricula(placeholder='Digite sua matricula')}}
+    </div>
+    <div class="login__card-campo">
+      {{form.senha.label()}} {{form.senha(placeholder='Digite sua senha')}}
+    </div>
+    {{form.submit(class='button')}}
+
+    <div>
+      <span class="card__texto">Não possui uma conta?</span>
+      <a class="card__link" href="{{ url_for('auth.session.register' ) }}"
+        >Registrar</a
+      >
+    </div>
+  </form>
+</section>
+
+{% endblock %}
